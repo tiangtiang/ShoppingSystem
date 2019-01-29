@@ -9,6 +9,9 @@ public class Commodity {
     private byte[] image;
     private double price;
 
+    private int ownerId;
+    private int sellCount;
+
     public int getId() {
         return id;
     }
@@ -56,5 +59,21 @@ public class Commodity {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public int getSellCount() {
+        return sellCount;
+    }
+
+    public void setSellCount(int sellCount) {
+        this.sellCount = sellCount;
     }
 }

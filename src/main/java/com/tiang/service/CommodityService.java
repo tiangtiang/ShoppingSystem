@@ -32,4 +32,13 @@ public class CommodityService {
     public byte[] queryImage(int id){
         return dao.queryCommodityImage(id).getImage();
     }
+
+    /**
+     * 添加商品
+     * @param commodity 商品信息
+     * @return 添加之后的商品id
+     */
+    public int addCommodity(Commodity commodity){
+        return dao.addCommodity(commodity);
+    }
 }

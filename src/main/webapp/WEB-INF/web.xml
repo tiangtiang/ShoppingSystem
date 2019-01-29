@@ -11,10 +11,31 @@
     <param-value>classpath:spring-config.xml</param-value>
   </context-param>
 
+  <!--设置编码为utf8-->
+  <filter>
+    <filter-name>charFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>charFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
   <!--启动spring 上下文-->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+
+
 
   <!--注册spring mvc的servlet-->
   <servlet>

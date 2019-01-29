@@ -109,6 +109,13 @@
       <version>2.9.8</version>
     </dependency>
 
+    <!--上传文件-->
+    <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.4</version>
+    </dependency>
   </dependencies>
 
   <build>

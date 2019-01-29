@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加商品</title>
+</head>
+<body>
+    <script>
+        function showPreview(source, imgId) {
+            var file = source.files[0];
+            if(window.FileReader) {
+                var fr = new FileReader();
+                fr.onloadend = function(e) {
+                    var show = document.getElementById(imgId);
+                    show.src = e.target.result;
+                    show.style.display = "block";
+                }
+                fr.readAsDataURL(file);
+            }
+        }
+    </script>
+    <form method="post" action="../seller/add" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td>
+                    标题：
+                </td>
+                <td>
+                    <input name="title">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    摘要：
+                </td>
+                <td>
+                    <textarea name="summary" rows="2" cols="50"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    详细描述：
+                </td>
+                <td>
+                    <textarea name="content" rows="10" cols="50"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    价格
+                </td>
+                <td>
+                    <input name="price">
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    上传图片：<input type="file" accept="image/*" name="image" onchange="showPreview(this, 'temp')">
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <img src="" id="temp" style="width: 200px; height: 200px;" hidden="true" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

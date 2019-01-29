@@ -9,7 +9,7 @@
                         简述：${commodity.summary}<br>
                         详细描述：${commodity.content}<br>
                         价格：${commodity.price} 元<br>
-                        <img src="index/image/${commodity.id}">
+                        <img src="index/image/${commodity.id}" width="200" height="300">
                     </td>
                 </#list>
             </tr>

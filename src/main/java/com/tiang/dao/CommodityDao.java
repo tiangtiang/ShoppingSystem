@@ -1,6 +1,8 @@
 package com.tiang.dao;
 
 import com.tiang.model.Commodity;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
@@ -26,4 +28,9 @@ public interface CommodityDao {
      */
     @Select("select image from t_commodity where id=#{id}")
     Commodity queryCommodityImage(int id);
+
+    @Insert("insert into t_commodity (title, summary, content, price, image, owner_id) values(#{title}," +
+            "#{summary}, #{content}, #{price}, #{image}, #{ownerId})")
+    @Options(useGeneratedKeys = true, keyColumn = "id")
+    int addCommodity(Commodity commodity);
 }
