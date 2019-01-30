@@ -1,5 +1,10 @@
 package com.tiang.model;
 
+/**
+ * @author tiang
+ * @date 20190130
+ * 商品类
+ */
 public class Commodity {
 
     private int id;

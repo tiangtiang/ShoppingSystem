@@ -29,6 +29,11 @@ public interface CommodityDao {
     @Select("select image from t_commodity where id=#{id}")
     Commodity queryCommodityImage(int id);
 
+    /**
+     * 添加商品
+     * @param commodity 商品信息
+     * @return 是否添加成功
+     */
     @Insert("insert into t_commodity (title, summary, content, price, image, owner_id) values(#{title}," +
             "#{summary}, #{content}, #{price}, #{image}, #{ownerId})")
     @Options(useGeneratedKeys = true, keyColumn = "id")

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>登录</title>
+    <meta charset="UTF-8"/>
+    <script src="../js/jquery.js"></script>
+</head>
+<body>
+
+    <div>
+        用户名：<input id="username" name="userName"><br>
+        密码：<input type="password" id="password" name="password"><br>
+        <button onclick="bntClick()">登录</button>
+    </div>
+
+    <script>
+        var bntClick = function () {
+            $.ajax(
+                {
+                    url: '../user/login',
+                    method: 'POST',
+                    dataType: 'json',
+                    data:{
+                        userName:$('#username').val(),
+                        password:$('#password').val()
+                    },
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function () {
+                        alert("failed");
+                    }
+                }
+            )
+        }
+    </script>
+</body>
+</html>

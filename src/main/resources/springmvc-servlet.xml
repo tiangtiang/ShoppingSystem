@@ -41,4 +41,5 @@
 
     <!--访问静态资源，遇到这个直接返回-->
     <mvc:resources mapping="/html/**" location="html/"/>
+    <mvc:resources mapping="/js/**" location="js/"/>
 </beans>

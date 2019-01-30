@@ -22,7 +22,6 @@ public class HelloSpring {
     public void hello(@PathVariable int id, PrintWriter writer){
         User user = service.queryUser(id);
         writer.println("username: "+user.getUserName());
-        writer.println("corp: "+user.getCorp());
     }
 
     @RequestMapping("/count")
