@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -37,9 +39,12 @@ public class IndexController {
      * @return 商品页面地址
      */
     @RequestMapping("/index")
-    public String index(ModelMap map){
+    public String index(ModelMap map, HttpSession session){
         List<Commodity> list = commodityService.queryList();
         map.put("goods", list);
+        if(session.getAttribute("user")!=null){
+            map.put("user", session.getAttribute("user"));
+        }
         return "index";
     }
 
@@ -63,11 +68,13 @@ public class IndexController {
      */
     @RequestMapping(path = "/user/login", method = RequestMethod.POST)
     @ResponseBody
-    public Object login(String userName, String password){
+    public Object login(String userName, String password, HttpServletRequest request){
         User user = userService.queryUser(userName);
-        if(user.getPassword() .equals(password))
+        if(user.getPassword().equals(password)) {
+            HttpSession session = request.getSession(true);
+            session.setAttribute("user", user);
             return user;
-        else
+        }else
             return "failed";
     }
 }

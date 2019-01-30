@@ -10,6 +10,7 @@
     <div>
         用户名：<input id="username" name="userName"><br>
         密码：<input type="password" id="password" name="password"><br>
+        <div id="error"></div>
         <button onclick="bntClick()">登录</button>
     </div>
 
@@ -25,7 +26,11 @@
                         password:$('#password').val()
                     },
                     success: function (data) {
-                        alert(data);
+                        if(data == 'failed'){
+                            $('#error').innerText='登录失败';
+                        }else{
+                            window.location.href='../index';
+                        }
                     },
                     error: function () {
                         alert("failed");

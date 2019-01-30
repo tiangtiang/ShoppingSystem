@@ -11,13 +11,20 @@
 
     <body>
 
-        <nav class="navbar">
-            <div class="container-fluid">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#">首页</a></li>
-                    <li><a href="html/login.html">登录</a></li>
-                </ul>
-            </div>
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+            <a class="navbar-brand" href="./index">首页</a>
+            <div class="collapse navbar-collapse" id="navbarNav"></div>
+            <#if user??>
+            <#--如果用户已经登录，根据用户类别显示不同的标题-->
+                <div class="my-2 my-lg-0 nav-item">
+                    ${user.userName}
+                </div>
+            <#else>
+            <#--如果没有登录，显示登录按钮-->
+                <div class="my-2 my-lg-0 nav-item">
+                    <a class="nav-link my-2 my-sm-0" href="html/login.html">登录</a>
+                </div>
+            </#if>
         </nav>
 
         <table>
