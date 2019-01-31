@@ -11,6 +11,8 @@ public class User {
     private String password;
     private String nickName;
 
+    private int isBuyer;
+
     public int getUserId() {
         return userId;
     }
@@ -41,5 +43,13 @@ public class User {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public int getIsBuyer() {
+        return isBuyer;
+    }
+
+    public void setIsBuyer(int buyer) {
+        isBuyer = buyer;
     }
 }

@@ -64,6 +64,7 @@ public class IndexController {
      * 处理用户登录
      * @param userName 用户名
      * @param password 密码
+     * @param request HTTP请求
      * @return 登录是否成功
      */
     @RequestMapping(path = "/user/login", method = RequestMethod.POST)
@@ -76,5 +77,16 @@ public class IndexController {
             return user;
         }else
             return "failed";
+    }
+
+    /**
+     * 退出登录
+     * @param session HTTP会话
+     * @return 重定向到登录界面
+     */
+    @RequestMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("user");
+        return "redirect:index";
     }
 }

@@ -4,7 +4,6 @@
         <title>首页</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     </head>
@@ -17,8 +16,23 @@
             <#if user??>
             <#--如果用户已经登录，根据用户类别显示不同的标题-->
                 <div class="my-2 my-lg-0 nav-item">
-                    ${user.userName}
+                    ${user.nickName} 你好
                 </div>
+                <div class="my-2 my-lg-0 nav-item">
+                    <a class="nav-link my-2 my-sm-0" href="./logout">退出</a>
+                </div>
+                <#if user.isBuyer == 1>
+                    <div class="my-2 my-lg-0 nav-item">
+                        <a class="nav-link my-2 my-sm-0" href="#">财务</a>
+                    </div>
+                    <div class="my-2 my-lg-0 nav-item">
+                        <a class="nav-link my-2 my-sm-0" href="#">购物车</a>
+                    </div>
+                <#elseif user.isBuyer == 0>
+                    <div class="my-2 my-lg-0 nav-item">
+                        <a class="nav-link my-2 my-sm-0" href="#">发布</a>
+                    </div>
+                </#if>
             <#else>
             <#--如果没有登录，显示登录按钮-->
                 <div class="my-2 my-lg-0 nav-item">
