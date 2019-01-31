@@ -8,8 +8,9 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     </head>
 
-    <body>
+    <body style="background: #F3F3F3">
 
+        <#--首部导航栏-->
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
             <a class="navbar-brand" href="./index">首页</a>
             <div class="collapse navbar-collapse" id="navbarNav"></div>
@@ -40,20 +41,41 @@
                 </div>
             </#if>
         </nav>
+        <#--定义商品列表的样式-->
+        <style>
+            .inner{
+                margin-top: 20px;
+            }
+            .ccell{
+                background: #f0e9e9;
+                margin-right: 10px;
+                margin-left: 10px;
+                margin-bottom: 10px;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                border-radius: 10px;
+            }
+        </style>
+        <#--定义图片展示列数-->
+        <#assign cols = 3>
 
-        <table>
-            <tr>
-                <#list goods as commodity>
-                    <td>
-                        商品名：${commodity.title}<br>
-                        简述：${commodity.summary}<br>
-                        详细描述：${commodity.content}<br>
-                        价格：${commodity.price} 元<br>
-                        <img src="index/image/${commodity.id}" width="200" height="300">
-                    </td>
-                </#list>
-            </tr>
-        </table>
+        <div class="container inner">
+            <#list goods as commodity>
+                <#if commodity_index%cols==0>
+                    <div class="row inner">
+                </#if>
+                <div class="col text-center align-self-start ccell col-lg-3">
+                    <p>标题：${commodity.title}</p>
+                    <p>价格：${commodity.price} 元</p>
+                    <img src="index/image/${commodity.id}" style="width: 200px;height: 200px;">
+                </div>
+                <#if commodity_index%cols==cols-1>
+                    </div>
+                </#if>
+            </#list>
+        </div>
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
