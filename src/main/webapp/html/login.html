@@ -6,31 +6,40 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <script src="../js/jquery.js"></script>
     </head>
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-        <a class="navbar-brand" href="./index">首页</a>
+        <a class="navbar-brand" href="../index">首页</a>
         <div class="collapse navbar-collapse" id="navbarNav"></div>
         <div class="my-2 my-lg-0 nav-item">
-            <a class="nav-link my-2 my-sm-0" href="html/login.html">登录</a>
+            <a class="nav-link my-2 my-sm-0" href="#">登录</a>
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container" style="margin-top: auto">
         <div class="row">
             <div class="col"></div>
             <div class="col">
                 <div class="form-group row">
                     <label for="username" class="col-lg-4 col-form-label">用户名：</label>
                     <div class="col-lg-10">
-                        <input id="username" class="form-control" type="text" placeholder="用户名">
+                        <input id="username" class="form-control" type="text" placeholder="用户名" required
+                               oninput="inInput(this)">
+                        <div class="invalid-feedback">
+                            请输入用户名
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="password" class="col-lg-4 col-form-label">密码：</label>
                     <div class="col-lg-10">
-                        <input id="password" type="password" placeholder="密码" class="form-control">
+                        <input id="password" type="password" placeholder="密码" class="form-control" required
+                               oninput="inInput(this)">
+                        <div class="invalid-feedback">
+                            请输入密码
+                        </div>
                     </div>
                 </div>
                 <div id="error"></div>
@@ -44,21 +53,39 @@
 
     <!--登录跳转页面-->
     <script>
+        // 输入框输入内容变化时
+        var inInput = function (cnt) {
+            if($(cnt).val()!=''){
+                $(cnt).removeClass('is-invalid');
+            }
+        }
+        //点击按钮提交登录情况
         var bntClick = function () {
+            var inputUsername = $('#username');
+            if(inputUsername.val() == ''){
+                inputUsername.addClass('is-invalid');
+                return;
+            }
+            var inputPassword = $('#password');
+            if(inputPassword.val() == ''){
+                inputPassword.removeClass('is-valid');
+                inputPassword.addClass('is-invalid');
+                return;
+            }
             $.ajax(
                 {
                     url: '../user/login',
                     method: 'POST',
                     dataType: 'json',
-                    data:{
-                        userName:$('#username').val(),
-                        password:$('#password').val()
+                    data: {
+                        userName: $('#username').val(),
+                        password: $('#password').val()
                     },
                     success: function (data) {
-                        if(data == 'failed'){
-                            $('#error').innerText='登录失败';
-                        }else{
-                            window.location.href='../index';
+                        if (data == 'failed') {
+                            $('#error').innerText = '登录失败';
+                        } else {
+                            window.location.href = '../index';
                         }
                     },
                     error: function () {
@@ -68,5 +95,10 @@
             )
         }
     </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>-->
+    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>-->
 </body>
 </html>
