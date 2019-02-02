@@ -46,7 +46,7 @@
     <!--拦截器栈-->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/**.do"/>
+            <mvc:mapping path="/**/**.do"/>
             <bean class="com.tiang.interceptor.NotSignedInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

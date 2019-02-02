@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 public class NotSignedInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        String url = request.getRequestURI();
-        System.out.println(url);
-        return true;
+        System.out.println(request.getRequestURL());
+        if(request.getSession().getAttribute("user")==null)
+            return false;
+        else
+            return true;
     }
 }
