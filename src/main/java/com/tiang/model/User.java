@@ -75,4 +75,17 @@ public class User {
     public void setBoughtLists(List<BoughtList> boughtLists) {
         this.boughtLists = boughtLists;
     }
+
+    /**
+     * 判断用户是否已购买某个商品
+     * @param cid 商品id
+     * @return 如果已购买就返回商品信息，如果未购买就返回null
+     */
+    public BoughtList findBoughtList(int cid){
+        for(BoughtList bl: boughtLists){
+            if(bl.getCommodityId() == cid)
+                return bl;
+        }
+        return null;
+    }
 }
