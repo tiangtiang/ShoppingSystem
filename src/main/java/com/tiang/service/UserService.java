@@ -1,11 +1,15 @@
 package com.tiang.service;
 
+import com.tiang.dao.BoughtDao;
 import com.tiang.dao.UserDao;
+import com.tiang.model.BoughtList;
 import com.tiang.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author tiang
@@ -16,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     @Autowired
-    private UserDao dao;
+    private UserDao userDao;
+    @Autowired
+    private BoughtDao boughtDao;
 
     /**
      * 通过用户id查询用户的信息
@@ -24,7 +30,7 @@ public class UserService {
      * @return 用户信息
      */
     public User queryUser(int id){
-        return dao.queryUserById(id);
+        return userDao.queryUserById(id);
     }
 
     /**
@@ -33,18 +39,27 @@ public class UserService {
      * @return 用户信息
      */
     public User queryUser(String userName){
-        return dao.queryUserByName(userName);
+        return userDao.queryUserByName(userName);
+    }
+
+    /**
+     * 查询用户的购买列表
+     * @param user 用户
+     */
+    public void queryUserBought(User user){
+        List<BoughtList> lists = boughtDao.queryBoughtList(user.getUserId());
+        user.setBoughtLists(lists);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void delete(){
-        dao.deleteUser(5);
+        userDao.deleteUser(5);
         throwEx();
-        dao.deleteUser(6);
+        userDao.deleteUser(6);
     }
 
     public int count(){
-        return dao.count();
+        return userDao.count();
     }
 
     private void throwEx(){

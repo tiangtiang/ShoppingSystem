@@ -16,10 +16,18 @@ public interface CommodityDao {
 
     /**
      * 查询商品列表，但是不查询图片
-     * @return
+     * @return 商品简要信息
      */
-    @Select("select id, title, summary, content, price from t_commodity")
+    @Select("select id, title, price from t_commodity")
     List<Commodity> queryCommodityList();
+
+    /**
+     * 查询商品的详细信息，包括摘要和详细描述
+     * @param id 商品id
+     * @return 商品信息
+     */
+    @Select("select id, title, summary, content, price from t_commodity where id=#{id}")
+    Commodity queryCommodity(int id);
 
     /**
      * 查询指定商品的图片

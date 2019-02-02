@@ -41,4 +41,13 @@ public class CommodityService {
     public int addCommodity(Commodity commodity){
         return dao.addCommodity(commodity);
     }
+
+    /**
+     * 查询商品的详细信息
+     * @param id 商品id
+     * @return 详细信息
+     */
+    public Commodity queryCommodity(int id){
+        return dao.queryCommodity(id);
+    }
 }

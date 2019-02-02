@@ -1,5 +1,7 @@
 package com.tiang.model;
 
+import java.util.List;
+
 /**
  * @author tiang
  * @date 20190130
@@ -12,6 +14,11 @@ public class User {
     private String nickName;
 
     private int isBuyer;
+
+    // 购物车
+    private List<Cart> carts;
+    // 已购列表
+    private List<BoughtList> boughtLists;
 
     public int getUserId() {
         return userId;
@@ -51,5 +58,21 @@ public class User {
 
     public void setIsBuyer(int buyer) {
         isBuyer = buyer;
+    }
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
+    }
+
+    public List<BoughtList> getBoughtLists() {
+        return boughtLists;
+    }
+
+    public void setBoughtLists(List<BoughtList> boughtLists) {
+        this.boughtLists = boughtLists;
     }
 }

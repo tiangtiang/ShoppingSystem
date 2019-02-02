@@ -1,5 +1,6 @@
 package com.tiang.controller;
 
+import com.tiang.model.BoughtList;
 import com.tiang.model.Commodity;
 import com.tiang.model.User;
 import com.tiang.service.CommodityService;
@@ -16,7 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author tiang
@@ -43,7 +48,17 @@ public class IndexController {
         List<Commodity> list = commodityService.queryList();
         map.put("goods", list);
         if(session.getAttribute("user")!=null){
-            map.put("user", session.getAttribute("user"));
+            // 用户已经登录
+            User user = (User) session.getAttribute("user");
+            if(user.getIsBuyer() == 1){
+                // 如果是买家
+                // 获取已购列表
+                userService.queryUserBought(user);
+                List<Integer> boughtList =
+                        user.getBoughtLists().stream().map(bt->bt.getCommodityId()).collect(Collectors.toList());
+                map.put("boughtList", boughtList);
+            }
+            map.put("user", user);
         }
         return "index";
     }
