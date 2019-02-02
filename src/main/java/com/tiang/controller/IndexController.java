@@ -1,6 +1,5 @@
 package com.tiang.controller;
 
-import com.tiang.model.BoughtList;
 import com.tiang.model.Commodity;
 import com.tiang.model.User;
 import com.tiang.service.CommodityService;
@@ -17,10 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -44,21 +40,31 @@ public class IndexController {
      * @return 商品页面地址
      */
     @RequestMapping("/index")
-    public String index(ModelMap map, HttpSession session){
-        List<Commodity> list = commodityService.queryList();
-        map.put("goods", list);
-        if(session.getAttribute("user")!=null){
-            // 用户已经登录
-            User user = (User) session.getAttribute("user");
-            if(user.getIsBuyer() == 1){
-                // 如果是买家
-                // 获取已购列表
-                userService.queryUserBought(user);
-                List<Integer> boughtList =
-                        user.getBoughtLists().stream().map(bt->bt.getCommodityId()).collect(Collectors.toList());
-                map.put("boughtList", boughtList);
+    public String index(ModelMap map, HttpSession session, HttpServletRequest request){
+        String type = request.getParameter("type");
+        if(type!=null){
+            if(session.getAttribute("user")!=null){
+                User user = (User) session.getAttribute("user");
+                List<Commodity> list = commodityService.queryCommodityListNotBuy(user.getUserId());
+                map.put("user", user);
+                map.put("goods", list);
             }
-            map.put("user", user);
+        }else {
+            List<Commodity> list = commodityService.queryList();
+            map.put("goods", list);
+            if (session.getAttribute("user") != null) {
+                // 用户已经登录
+                User user = (User) session.getAttribute("user");
+                if (user.getIsBuyer() == 1) {
+                    // 如果是买家
+                    // 获取已购列表
+                    userService.queryUserBought(user);
+                    List<Integer> boughtList =
+                            user.getBoughtLists().stream().map(bt -> bt.getCommodityId()).collect(Collectors.toList());
+                    map.put("boughtList", boughtList);
+                }
+                map.put("user", user);
+            }
         }
         return "index";
     }

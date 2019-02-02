@@ -50,4 +50,13 @@ public class CommodityService {
     public Commodity queryCommodity(int id){
         return dao.queryCommodity(id);
     }
+
+    /**
+     * 查询用户尚未购买的商品列表
+     * @param userId 用户id
+     * @return 商品列表
+     */
+    public List<Commodity> queryCommodityListNotBuy(int userId){
+        return dao.queryCommodityListNotBuy(userId);
+    }
 }

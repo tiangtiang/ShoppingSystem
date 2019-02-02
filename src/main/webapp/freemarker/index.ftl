@@ -1,6 +1,20 @@
 <#include "./layout.ftl">
 
 <@layout>
+
+        <#if user?? && user.isBuyer==1>
+            <ul class="nav nav-tabs" style="margin-top: 10px">
+                <li class="nav-item">
+                    <a class="nav-link active" id="allList" data-toggle="tab" role="tab"
+                        aria-selected="true" style="cursor: pointer">所有商品</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="notBuy" data-toggle="tab" role="tab"
+                        aria-selected="false" style="cursor: pointer">未购买商品</a>
+                </li>
+            </ul>
+        </#if>
+
         <#--定义商品列表的样式-->
         <style>
             .inner{
@@ -46,7 +60,7 @@
         <#--定义图片展示列数-->
         <#assign cols = 3>
 
-        <div class="container inner">
+        <div class="container inner" id="all">
             <#list goods as commodity>
                 <#if commodity_index%cols==0>
                     <div class="row inner">
@@ -77,6 +91,19 @@
         <script>
             var divfun = function (id) {
                 window.location.href = './commodity?id='+id;
+            }
+            $('#allList').click(function () {
+                window.location.href='index';
+            });
+            $('#notBuy').click(function () {
+                window.location.href='index?type=1';
+            });
+            window.onload=function (ev) {
+                var href = window.location.href;
+                if(href.indexOf('type')>-1){
+                    $('#allList').removeClass('active');
+                    $('#notBuy').addClass('active');
+                }
             }
         </script>
 </@layout>

@@ -38,6 +38,15 @@ public interface CommodityDao {
     Commodity queryCommodityImage(int id);
 
     /**
+     * 查询用户尚未购买的商品
+     * @param userId 用户id
+     * @return 商品列表
+     */
+    @Select("SELECT id, title, price FROM t_commodity t2 WHERE\n" +
+            "\tt2.id NOT IN ( SELECT t.commodity_id FROM t_bought_list t WHERE t.user_id = 1 )")
+    List<Commodity> queryCommodityListNotBuy(int userId);
+
+    /**
      * 添加商品
      * @param commodity 商品信息
      * @return 是否添加成功
