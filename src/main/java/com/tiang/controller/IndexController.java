@@ -42,13 +42,11 @@ public class IndexController {
     @RequestMapping("/index")
     public String index(ModelMap map, HttpSession session, HttpServletRequest request){
         String type = request.getParameter("type");
-        if(type!=null){
-            if(session.getAttribute("user")!=null){
+        if(type!=null && session.getAttribute("user")!=null){
                 User user = (User) session.getAttribute("user");
                 List<Commodity> list = commodityService.queryCommodityListNotBuy(user.getUserId());
                 map.put("user", user);
                 map.put("goods", list);
-            }
         }else {
             List<Commodity> list = commodityService.queryList();
             map.put("goods", list);
