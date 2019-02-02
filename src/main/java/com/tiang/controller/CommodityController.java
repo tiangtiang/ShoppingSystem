@@ -1,15 +1,19 @@
 package com.tiang.controller;
 
 import com.tiang.model.BoughtList;
+import com.tiang.model.Cart;
 import com.tiang.model.Commodity;
 import com.tiang.model.User;
 import com.tiang.service.CommodityService;
 import com.tiang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
@@ -53,5 +57,35 @@ public class CommodityController {
         }
 
         return "commodity-info";
+    }
+
+    /**
+     * 将商品加入购物车
+     * @param commodityId 商品id
+     * @param count 购买数量
+     */
+    @RequestMapping(path = "/commodity/add.do", method = RequestMethod.POST)
+    @ResponseBody
+    public String addCommodityToCart(int commodityId, int count, HttpSession session){
+        if(session.getAttribute("user")!=null){
+            User user = (User)session.getAttribute("user");
+            Cart cart = userService.cartExistCommodity(user.getUserId(), commodityId);
+            if(cart != null){
+                // 购物车中已经有了这件产品，就更新
+                cart.setCount(cart.getCount()+count);
+                if(userService.updateCartCommodityCount(cart))
+                    return "success";
+            }else{
+                // 不存在，就插入
+                cart = new Cart();
+                cart.setUserId(user.getUserId());
+                cart.setCommodityId(commodityId);
+                cart.setCount(count);
+                if(userService.addCommodityToCart(cart)){
+                    return "success";
+                }
+            }
+        }
+        return "failed";
     }
 }

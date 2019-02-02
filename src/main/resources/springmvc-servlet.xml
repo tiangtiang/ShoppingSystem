@@ -44,13 +44,10 @@
     <mvc:resources mapping="/js/**" location="js/"/>
 
     <!--拦截器栈-->
-    <!--<mvc:interceptors>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/**"/>-->
-            <!--<mvc:exclude-mapping path="/index/**"/>-->
-            <!--<mvc:exclude-mapping path="/html/**"/>-->
-            <!--<mvc:exclude-mapping path="/js/**"/>-->
-            <!--<bean class="com.tiang.interceptor.NotSignedInterceptor"/>-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**.do"/>
+            <bean class="com.tiang.interceptor.NotSignedInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

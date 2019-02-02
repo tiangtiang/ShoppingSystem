@@ -25,7 +25,8 @@
                 <p>
                     <div>
                         <label class="form-inline font-weight-normal">购买数量：
-                        <input type="number" class="form-control" min="0" style="width: 70px;">
+                        <input type="number" class="form-control" min="0"
+                               style="width: 100px;" id="count" onchange="numChange(this)">
                         </label>
                     </div>
                 </p>
@@ -39,9 +40,53 @@
                                 上次购买的价格是：${bought.buyPrice}￥</span>
                         </div>
                     <#else>
+                        <#--买家登录，可以购买商品-->
                         <div>
-                            <button class="btn btn-primary">加入购物车</button>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#inCart">加入购物车</button>
                         </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="inCart" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        确认加入购物车？
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" onclick="confirmClick()">确定</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            var confirmClick = function () {
+                                // 没有填数量就隐藏
+                                var num = $('#count');
+                                if(num.val() == ''|| num.val()<=0){
+                                    num.addClass('is-invalid');
+                                    $('#inCart').modal('hide');
+                                    return;
+                                }
+                                // 发送请求添加成功
+                                $.ajax('commodity/add.do',{
+                                    method:'POST',
+                                    data:{
+                                        commodityId:${commodity.id},
+                                        count:$('#count').val()
+                                    },
+                                    success:function (data) {
+                                        $('#inCart').modal('hide');
+                                        alert(data);
+                                    },
+                                    error: function () {
+                                        $('#inCart').modal('hide');
+                                        alert("发送失败");
+                                    }
+                                })
+                            }
+                        </script>
                     </#if>
                 <#elseif user??>
                     <div>
@@ -50,6 +95,15 @@
                 </#if>
             </div>
         </div>
+
+        <script>
+            var numChange = function (cnt) {
+                cnt = $(cnt);
+                if(cnt.val() != '' && cnt.val() > 0){
+                    cnt.removeClass('is-invalid');
+                }
+            }
+        </script>
 
         <div style="margin-top: 50px">
             <p><h4>详细信息</h4></p>
