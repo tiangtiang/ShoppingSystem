@@ -1,5 +1,6 @@
 package com.tiang.controller;
 
+import com.tiang.interceptor.RequiredLogin;
 import com.tiang.model.BoughtList;
 import com.tiang.model.Cart;
 import com.tiang.model.Commodity;
@@ -66,6 +67,7 @@ public class CommodityController {
      */
     @RequestMapping(path = "/commodity/add.do", method = RequestMethod.POST)
     @ResponseBody
+    @RequiredLogin
     public String addCommodityToCart(int commodityId, int count, HttpSession session){
         if(session.getAttribute("user")!=null){
             User user = (User)session.getAttribute("user");

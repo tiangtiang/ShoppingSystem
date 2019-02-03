@@ -116,6 +116,15 @@
       <artifactId>commons-fileupload</artifactId>
       <version>1.4</version>
     </dependency>
+
+    <!--切面-->
+    <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.9.2</version>
+    </dependency>
+
   </dependencies>
 
   <build>

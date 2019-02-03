@@ -1,5 +1,6 @@
 package com.tiang.controller;
 
+import com.tiang.interceptor.RequiredLogin;
 import com.tiang.model.Cart;
 import com.tiang.model.User;
 import com.tiang.service.UserService;
@@ -22,6 +23,7 @@ public class CartController {
     private UserService userService;
 
     @RequestMapping("/cart")
+    @RequiredLogin
     public Object showCart(HttpSession session){
         User user = (User) session.getAttribute("user");
         List<Cart> list = userService.queryUserCart(user.getUserId());
