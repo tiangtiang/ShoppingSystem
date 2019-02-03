@@ -60,6 +60,9 @@
                             </div>
                         </div>
 
+                        <link type="text/css" rel="stylesheet" href="./css/common.css">
+                        <script src="./js/common.js"></script>
+
                         <script>
                             var confirmClick = function () {
                                 // 没有填数量就隐藏
@@ -78,11 +81,20 @@
                                     },
                                     success:function (data) {
                                         $('#inCart').modal('hide');
-                                        alert(data);
+                                        if(data == 'success')
+                                            var div = load('添加成功');
+                                        else
+                                            var div = load('添加失败');
+                                        setTimeout(function () {
+                                            div.remove();
+                                        }, 2000);
                                     },
                                     error: function () {
                                         $('#inCart').modal('hide');
-                                        alert("发送失败");
+                                        var div = load('发送失败');
+                                        setTimeout(function () {
+                                            div.remove();
+                                        }, 2000);
                                     }
                                 })
                             }
