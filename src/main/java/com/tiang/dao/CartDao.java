@@ -65,4 +65,13 @@ public interface CartDao {
      */
     @Update("update t_cart set count = #{count} where user_id = #{userId} and commodity_id = #{commodityId}")
     int updateCommodityCount(Cart cart);
+
+    /**
+     * 从购物车中删除记录
+     * @param userId 用户id
+     * @param commodityId 商品id
+     * @return 是否删除成功
+     */
+    @Delete("delete from t_cart where user_id=#{uid} and commodity_id=#{cid}")
+    int deleteCart(@Param("uid") int userId, @Param("cid") int commodityId);
 }

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,13 +58,6 @@ public class UserService {
         user.setBoughtLists(lists);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
-    public void delete(){
-        userDao.deleteUser(5);
-        throwEx();
-        userDao.deleteUser(6);
-    }
-
     /**
      * 查询用户购物车中是否存在某个商品
      * @param userId 用户id
@@ -100,6 +95,40 @@ public class UserService {
      */
     public List<Cart> queryUserCart(int userId){
         return cartDao.queryCartListWithCommodity(userId);
+    }
+
+    /**
+     * 购买产品
+     * @param userId 用户id
+     * @param cid 商品id列表
+     * @param count 商品数量列表
+     * @param price 商品价格列表
+     * @return 是否插入成功
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean buyCommodity(int userId, List<Integer> cid, List<Integer> count, List<Double> price){
+        for(int i=0;i<cid.size();i++){
+            // 删除购物车记录
+            cartDao.deleteCart(userId, cid.get(i));
+            // 向已购列表中添加记录
+            BoughtList bl = new BoughtList();
+            bl.setUserId(userId);
+            bl.setCommodityId(cid.get(i));
+            bl.setCount(count.get(i));
+            bl.setBuyPrice(price.get(i));
+            bl.setBuyTime(new Date());
+            boughtDao.addBought(bl);
+        }
+        // 从购物车中将所有记录删除
+        return true;
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void delete(){
+        userDao.deleteUser(5);
+        throwEx();
+        userDao.deleteUser(6);
     }
 
     public int count(){

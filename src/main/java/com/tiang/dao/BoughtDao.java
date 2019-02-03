@@ -1,9 +1,7 @@
 package com.tiang.dao;
 
 import com.tiang.model.BoughtList;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,4 +29,13 @@ public interface BoughtDao {
             }
     )
     List<BoughtList> queryBoughtList(int userId);
+
+    /**
+     * 向已购列表中添加记录
+     * @param bought 记录
+     * @return 是否添加成功
+     */
+    @Insert("insert into t_bought_list (user_id, commodity_id, buy_price, count, buy_time) " +
+            "values(#{userId}, #{commodityId}, #{buyPrice}, #{count}, #{buyTime})")
+    int addBought(BoughtList bought);
 }
