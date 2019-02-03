@@ -55,7 +55,7 @@ public interface CartDao {
      * @param cart 购物车记录
      * @return 是否插入成功
      */
-    @Insert("insert into t_cart (user_id, commodity_id, count) values(#{userId}, #{commodityId}, #{count})")
+    @Insert("insert into t_cart (user_id, commodity_id, count, add_time) values(#{userId}, #{commodityId}, #{count}, #{addTime})")
     int addCommodityToCart(Cart cart);
 
     /**

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 /**
  * @author tiang
@@ -83,6 +84,7 @@ public class CommodityController {
                 cart.setUserId(user.getUserId());
                 cart.setCommodityId(commodityId);
                 cart.setCount(count);
+                cart.setAddTime(new Date());
                 if(userService.addCommodityToCart(cart)){
                     return "success";
                 }
