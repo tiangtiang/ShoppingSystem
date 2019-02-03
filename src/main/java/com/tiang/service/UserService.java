@@ -93,6 +93,15 @@ public class UserService {
         return cartDao.addCommodityToCart(cart)>0;
     }
 
+    /**
+     * 查询用户的购物车列表
+     * @param userId 用户id
+     * @return 购物车列表信息
+     */
+    public List<Cart> queryUserCart(int userId){
+        return cartDao.queryCartListWithCommodity(userId);
+    }
+
     public int count(){
         return userDao.count();
     }

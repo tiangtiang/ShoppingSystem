@@ -15,7 +15,22 @@ import java.util.List;
 @Repository
 public interface CartDao {
 
-    List<Cart> queryCartList(int userId);
+    /**
+     * 查询用户的购物车列表，顺便查询每个商品的信息
+     * @param userId 用户id
+     * @return 列表
+     */
+    @Select("select * from t_cart where user_id = #{userId}")
+    @Results(
+            {
+                    @Result(property = "userId", column = "user_id"),
+                    @Result(property = "commodityId", column = "commodity_id"),
+                    @Result(property = "addTime", column = "add_time"),
+                    @Result(property = "commodity", column = "commodity_id",
+                            one = @One(select = "com.tiang.dao.CommodityDao.queryCommodity"))
+            }
+    )
+    List<Cart> queryCartListWithCommodity(int userId);
 
     /**
      * 查询用户购物车中，是否有某件产品的记录

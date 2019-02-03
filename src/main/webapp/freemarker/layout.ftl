@@ -37,7 +37,7 @@
                         <a class="nav-link my-2 my-sm-0" href="#">财务</a>
                     </div>
                     <div class="my-2 my-lg-0 nav-item">
-                        <a class="nav-link my-2 my-sm-0" href="#">购物车</a>
+                        <a class="nav-link my-2 my-sm-0" href="./cart">购物车</a>
                     </div>
                 <#elseif user.isBuyer == 0>
                     <div class="my-2 my-lg-0 nav-item">
