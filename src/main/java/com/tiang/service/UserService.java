@@ -123,6 +123,14 @@ public class UserService {
         return true;
     }
 
+    /**
+     * 查询用户的已购列表，包括商品信息
+     * @param userId 用户id
+     * @return 列表
+     */
+    public List<BoughtList> queryUserBoughtWithCommodity(int userId){
+        return boughtDao.queryBoughtListWithCommodity(userId);
+    }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void delete(){
