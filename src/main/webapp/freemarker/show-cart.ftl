@@ -23,6 +23,7 @@
         </thead>
         <tbody>
             <#assign i=1>
+            <#assign total=0>
             <#list cart as item>
                 <tr>
                     <th scope="row">${i}</th>
@@ -33,8 +34,17 @@
                     <td hidden="hidden" class="cid">${item.commodityId}</td>
                 </tr>
                 <#assign i=i+1>
+                <#assign total=total+item.count*item.commodity.price>
             </#list>
+            <tr>
+                <th scope="row">总价</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><span style="margin-right: 10px">${total}</span> ￥</td>
+            </tr>
         </tbody>
+
     </table>
 
     <div class="row text-center btns">
@@ -44,13 +54,44 @@
             </button>
         </div>
         <div class="col">
-            <button class="btn btn-primary" onclick="buyClick()">
+            <button id="btnBuy" class="btn btn-primary" data-toggle="modal"
+                    data-target="#buyCommodity">
                 购买
             </button>
         </div>
     </div>
 </div>
+    <#--购买商品对话框-->
+                        <!-- Modal -->
+                        <div class="modal fade" id="buyCommodity" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        确定购买购物车中的所有商品吗？
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" onclick="buyClick()">确定</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<#--购物车中没有商品对话框-->
+                        <div class="modal fade" id="noCommodity" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        没有商品加入购物车！
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+<link type="text/css" rel="stylesheet" href="./css/common.css">
+<script src="./js/common.js"></script>
 <script>
     var buyClick = function () {
         var cidList = getValue('cid');
@@ -68,14 +109,27 @@
                     data: data,
                     type:'POST',
                     success:function (data) {
+                        $('#buyCommodity').modal('hide');
                         if(data == 'success'){
-                            window.location.reload();
+                            var div = load('购买成功');
+                            setTimeout(function () {
+                                div.remove();
+                                window.location.reload();
+                            }, 2000);
                         }
                     },
                     error:function () {
                         alert('failed');
                     }
                 });
+    }
+
+    {
+        if(getValue('cid').length == 0){
+            $('#btnBuy').attr('data-target', '#noCommodity');
+        }else{
+            $('#btnBuy').attr('data-target', '#buyCommodity');
+        }
     }
 
     function getValue(cls) {
