@@ -41,7 +41,7 @@
                     </div>
                 <#elseif user.isBuyer == 0>
                     <div class="my-2 my-lg-0 nav-item">
-                        <a class="nav-link my-2 my-sm-0" href="#">发布</a>
+                        <a class="nav-link my-2 my-sm-0" href="public">发布</a>
                     </div>
                 </#if>
             <#else>

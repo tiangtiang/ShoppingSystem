@@ -15,7 +15,6 @@ import java.io.IOException;
  * 卖家界面
  */
 @Controller
-@RequestMapping("/seller")
 public class SellerController {
 
     // 关于商品的服务
@@ -48,5 +47,10 @@ public class SellerController {
             return "redirect:../index";
         else
             return "redirect:../html/error.html";
+    }
+
+    @RequestMapping("/public")
+    public String publicCommodity(){
+        return "public-commodity";
     }
 }
