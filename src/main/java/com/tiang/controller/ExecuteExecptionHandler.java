@@ -4,6 +4,8 @@ import com.tiang.interceptor.NotLoginException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author tiang
  * @date 20190203
@@ -17,7 +19,12 @@ public class ExecuteExecptionHandler {
      * @return 跳转到登录页面
      */
     @ExceptionHandler(NotLoginException.class)
-    public String notLoginException(){
-        return "redirect:html/login.html";
+    public String notLoginException(HttpServletRequest request){
+        String header = request.getHeader("X-Requested-With");
+        if(header!=null && header.equals("XMLHttpRequest")){
+            return "needLogin";
+        }else {
+            return "redirect:html/login.html";
+        }
     }
 }

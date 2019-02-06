@@ -7,6 +7,7 @@ import com.tiang.model.User;
 import com.tiang.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +38,7 @@ public class SellerController {
     @RequestMapping("/add")
     @RequiredLogin(UserType.SELLER)
     public String addCommodity(String title, String summary, String content, double price,
-                               MultipartFile file, String imgUrl, HttpSession session) throws IOException {
+                               MultipartFile file, String imgUrl, ModelMap map, HttpSession session) throws IOException {
         Commodity commodity = new Commodity();
         commodity.setTitle(title);
         commodity.setSummary(summary);
@@ -45,16 +46,17 @@ public class SellerController {
         commodity.setPrice(price);
         if(file!=null)
             commodity.setImage(file.getBytes());
-        if(imgUrl!=null)
+        if(imgUrl!=null && !imgUrl.equals(""))
             commodity.setImgUrl(imgUrl);
         User user = (User) session.getAttribute("user");
         commodity.setOwnerId(user.getUserId());
 
         int result = service.addCommodity(commodity);
+        map.put("cid", commodity.getId());
         if(result!=-1)
-            return "failed";
+            return "public-success";
         else
-            return "success";
+            return "failed";
     }
 
     @RequestMapping("/public")
