@@ -17,6 +17,8 @@ public class Commodity {
     private int ownerId;
     private int sellCount;
 
+    private String imgUrl;
+
     public int getId() {
         return id;
     }
@@ -80,5 +82,13 @@ public class Commodity {
 
     public void setSellCount(int sellCount) {
         this.sellCount = sellCount;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

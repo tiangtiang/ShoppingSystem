@@ -16,7 +16,11 @@
     <div class="container" style="margin-top: 50px">
         <div class="row">
             <div class="col-lg-4">
-                <img src="./index/image/${commodity.id}" class="img"/>
+                <#if commodity.imgUrl??>
+                    <img src="${commodity.imgUrl}" class="img"/>
+                <#else >
+                    <img src="./index/image/${commodity.id}" class="img"/>
+                </#if>
             </div>
             <div class="col">
                 <p class="font-weight-bold"><h4>${commodity.title}</h4></p>

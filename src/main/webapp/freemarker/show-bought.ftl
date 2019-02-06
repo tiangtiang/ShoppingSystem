@@ -21,7 +21,13 @@
                 <tr>
                     <th scope="row">${i}</th>
                     <td>${item.commodity.title}</td>
-                    <td><img src="index/image/${item.commodity.id}" style="width: 50px;height: 50px"> </td>
+                    <td>
+                        <#if item.commodity.imgUrl??>
+                            <img src="${item.commodity.imgUrl}" style="width: 50px;height: 50px">
+                        <#else >
+                            <img src="index/image/${item.commodity.id}" style="width: 50px;height: 50px">
+                        </#if>
+                    </td>
                     <td>${item.buyTime?string["yyyy/MM/dd HH:mm"]}</td>
                     <td class="count">${item.count}</td>
                     <td>${item.buyPrice} ￥</td>

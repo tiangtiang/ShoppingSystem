@@ -69,7 +69,11 @@
                         style="cursor: pointer">
                         <p>标题：${commodity.title}</p>
                         <p>价格：${commodity.price} 元</p>
-                        <img src="index/image/${commodity.id}" style="width: 200px;height: 200px;">
+                        <#if commodity.imgUrl??>
+                            <img src="${commodity.imgUrl}" style="width: 200px;height: 200px;">
+                        <#else>
+                            <img src="index/image/${commodity.id}" style="width: 200px;height: 200px;">
+                        </#if>
                         <#if user??>
                             <#if boughtList??>
                                 <#if boughtList?seq_contains(commodity.id)>
