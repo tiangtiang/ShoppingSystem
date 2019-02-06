@@ -1,6 +1,7 @@
 package com.tiang.controller;
 
 import com.tiang.interceptor.RequiredLogin;
+import com.tiang.interceptor.UserType;
 import com.tiang.model.BoughtList;
 import com.tiang.model.Cart;
 import com.tiang.model.Commodity;
@@ -91,5 +92,22 @@ public class CommodityController {
             }
         }
         return "failed";
+    }
+
+    /**
+     * 删除商品
+     * @param id 商品id
+     * @param session 会话信息
+     * @return 删除成功与否
+     */
+    @RequestMapping("/commodity/del")
+    @RequiredLogin(UserType.SELLER)
+    @ResponseBody
+    public String deleteCommodity(int id, HttpSession session){
+        int result = userService.deleteCommodity(id);
+        if(result != -1)
+            return "success";
+        else
+            return "failed";
     }
 }

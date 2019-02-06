@@ -71,4 +71,12 @@ public interface CommodityDao {
      */
     @Update("update t_commodity set sellCount = sellCount+#{count} where id=#{id}")
     int updateSellCount(@Param("id") int id, @Param("count") int count);
+
+    /**
+     * 删除商品
+     * @param id 商品id
+     * @return 是否删除成功
+     */
+    @Delete("delete from t_commodity where id=#{id}")
+    int deleteCommodity(int id);
 }

@@ -137,6 +137,15 @@ public class UserService {
         return boughtDao.queryBoughtListWithCommodity(userId);
     }
 
+    /**
+     * 删除商品
+     * @param cid 商品id
+     * @return 是否删除成功
+     */
+    public int deleteCommodity(int cid){
+        return commodityDao.deleteCommodity(cid);
+    }
+
     @Transactional(propagation = Propagation.REQUIRED)
     public void delete(){
         userDao.deleteUser(5);

@@ -65,8 +65,8 @@
                 <#if commodity_index%cols==0>
                     <div class="row inner">
                 </#if>
-                    <div class="text-center align-self-start ccell col-lg-3" onclick="divfun(${commodity.id})"
-                        style="cursor: pointer">
+                    <div class="text-center align-self-start ccell col-lg-3">
+                        <a href="./commodity?id=${commodity.id}" style="text-decoration: none; color: black; cursor: pointer;">
                         <p>标题：${commodity.title}</p>
                         <p>价格：${commodity.price} 元</p>
                         <#if commodity.imgUrl??>
@@ -86,10 +86,12 @@
                                     </span>
                             </#if>
                         </#if>
-
-
-
-
+                        </a>
+                        <#if user?? && user.isBuyer==0 && commodity.sellCount == 0>
+                        <#--未售出的商品要显示删除按钮-->
+                                    <button class="btn btn-link" data-toggle="modal"
+                                            data-target="#delCommodity" data-id="${commodity.id}">删除</button>
+                        </#if>
                     </div>
                 <#if commodity_index%cols==cols-1>
                     </div>
@@ -97,10 +99,23 @@
             </#list>
         </div>
 
+<div class="modal fade" id="delCommodity" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                确定要删除该商品吗？
+            </div>
+            <input hidden id="cid">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" id="confirm" class="btn btn-primary" onclick="delCommodity()">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<link type="text/css" rel="stylesheet" href="./css/common.css">
+<script src="./js/common.js"></script>
         <script>
-            var divfun = function (id) {
-                window.location.href = './commodity?id='+id;
-            }
             $('#allList').click(function () {
                 window.location.href='index';
             });
@@ -113,6 +128,37 @@
                     $('#allList').removeClass('active');
                     $('#notBuy').addClass('active');
                 }
+            };
+            function delCommodity() {
+                $.ajax({
+                    url: 'commodity/del',
+                    method: 'POST',
+                    data:{
+                        id: $('#cid').val()
+                    },
+                    success: function (data) {
+                        $('#delCommodity').modal('hide');
+                        if(data == 'success'){
+                            var div = load('删除成功');
+                            setTimeout(function () {
+                                div.remove();
+                                window.location.reload();
+                            }, 1000);
+                        }else
+                            alert(data);
+                    },
+                    error:function () {
+                        $('#delCommodity').modal('hide');
+                        alert("删除失败！");
+                    }
+                })
             }
+
+            $('#delCommodity').on('show.bs.modal', function (event) {
+                var btn = $(event.relatedTarget);
+                var id = btn.data('id');
+                console.log(id);
+                $('#cid').val(id);
+            })
         </script>
 </@layout>
