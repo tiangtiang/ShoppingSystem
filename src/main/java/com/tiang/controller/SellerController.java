@@ -1,12 +1,16 @@
 package com.tiang.controller;
 
+import com.tiang.interceptor.RequiredLogin;
+import com.tiang.interceptor.UserType;
 import com.tiang.model.Commodity;
+import com.tiang.model.User;
 import com.tiang.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -27,30 +31,35 @@ public class SellerController {
      * @param summary 摘要
      * @param content 内容
      * @param price 价格
-     * @param image 图片
      * @return 跳转页面，成功就跳转到首页，失败就跳转到错误页面
      * @throws IOException 读取图片可能出现异常
      */
     @RequestMapping("/add")
+    @RequiredLogin(UserType.SELLER)
     public String addCommodity(String title, String summary, String content, double price,
-                             MultipartFile image) throws IOException {
+                               MultipartFile file, String imgUrl, HttpSession session) throws IOException {
         Commodity commodity = new Commodity();
         commodity.setTitle(title);
         commodity.setSummary(summary);
         commodity.setContent(content);
         commodity.setPrice(price);
-        commodity.setImage(image.getBytes());
-        commodity.setOwnerId(2);
+        if(file!=null)
+            commodity.setImage(file.getBytes());
+        if(imgUrl!=null)
+            commodity.setImgUrl(imgUrl);
+        User user = (User) session.getAttribute("user");
+        commodity.setOwnerId(user.getUserId());
 
         int result = service.addCommodity(commodity);
         if(result!=-1)
-            return "redirect:../index";
+            return "failed";
         else
-            return "redirect:../html/error.html";
+            return "success";
     }
 
     @RequestMapping("/public")
-    public String publicCommodity(){
+    @RequiredLogin(UserType.SELLER)
+    public String publicCommodity(HttpSession session){
         return "public-commodity";
     }
 }

@@ -42,9 +42,15 @@
                             <input type="text" class="form-control" id="website"
                                    placeholder="图片网址" onchange="downImgFormNet()">
                             <#--<button class="btn btn-primary" style="margin-left: 30px" onclick="downImgFormNet()">获取图片</button>-->
+                            <div class="invalid-feedback">
+                                请输入图片网址
+                            </div>
                         </div>
                         <div id="lf">
-                            <input type="file" onchange="showPreview(this, 'temp')" id="local-file" class="form-control-file">
+                            <input type="file" onchange="showPreview(this, 'temp')" id="local-file" class="form-control-file" oninput="localFileChange()">
+                            <div class="invalid-feedback" id="error-img">
+                                请选择大小不超过1M的图片
+                            </div>
                         </div>
 
                     </div>
@@ -113,32 +119,59 @@
             var url = $('#website').val()
             $('#temp').attr('src', url);
             $('#temp').attr('hidden', false);
+            netChange();
         }
         // 发布商品
         function publicCommodity() {
-            if(!validateText('title', 2, 80)){
+            if (!validateText('title', 2, 80)) {
                 $('#title').addClass('is-invalid');
                 return;
             }
             var title = $('#title').val();
 
-            if(!validateText('summary', 2, 140)){
+            if (!validateText('summary', 2, 140)) {
                 $('#summary').addClass('is-invalid');
                 return;
             }
             var summary = $('#summary').val();
 
-            if(!validateText('content', 2, 1000)){
+            if (!validateText('content', 2, 1000)) {
                 $('#content').addClass('is-invalid');
                 return;
             }
             var content = $('#content').val();
 
-            if(!validatePrice()){
+            if (!validatePrice()) {
                 $('#price').addClass('is-invalid');
                 return;
             }
-            var price = $('#price');
+            var price = $('#price').val();
+
+            if (!$('#net').attr('hidden')) {
+                var imgUrl = $('#website').val();
+            }
+            if (!$('#lf').attr('hidden')) {
+                var file = document.getElementById('local-file').files[0];
+            }
+
+            var data = {
+                title: title,
+                summary: summary,
+                content: content,
+                price: price,
+                imgUrl: imgUrl,
+                file: file
+            };
+            $.ajax('add',{
+                data: data,
+                method: 'POST',
+                success: function (data) {
+                    alert(data);
+                },
+                error: function () {
+                    alert("发送失败！");
+                }
+            })
         }
 
         // 文字框限制
@@ -155,7 +188,7 @@
             if(validateText($('#'+id).attr('id'), min, max))
                 $('#'+id).removeClass('is-invalid');
         }
-
+        // 判断价格输入框输入是否有效
         function validatePrice() {
             var ctrl = $('#price');
             var value = ctrl.val();
@@ -163,10 +196,46 @@
                 return false;
             return true;
         }
-
+        // 价格输入框输入事件
         function priceChange() {
             if(validatePrice()){
                 $('#price').removeClass('is-invalid');
+            }
+        }
+        // 检查图片是否存在
+        function checkImage() {
+            if(!$('#net').attr('hidden')){
+                var value = $('#website').val();
+                if(value == ''){
+                    $('#website').addClass('is-invalid');
+                    return false;
+                }
+                return true;
+            }
+            if(!$('#lf').attr('hidden')){
+                var value = document.getElementById('local-file').files;
+                if(value.length == 0){
+                    $('#local-file').addClass('is-invalid');
+                    return false;
+                }else if(value[0].size > 1024*1024){
+                    $('#local-file').addClass('is-invalid');
+                    return false;
+                }
+                return true;
+            }
+        }
+        // 本地文件上传
+        function localFileChange() {
+            var value = document.getElementById('local-file').files;
+            if(value.length>0){
+                $('#local-file').removeClass('is-invalid');
+            }
+        }
+        // 网络文件地址
+        function netChange() {
+            var ctrl = $('#website');
+            if(ctrl.val() != ''){
+                ctrl.removeClass('is-invalid');
             }
         }
     </script>
