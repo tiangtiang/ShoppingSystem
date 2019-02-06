@@ -9,7 +9,11 @@
                 <div class="form-group form-inline">
                     <label for="title" class="col-lg-2">标题：</label>
                     <input type="text" class="form-control col-lg-8" name="title"
-                           id="title" placeholder="2-80个字符" onchange="textChange('title', 2, 80)">
+                           id="title" placeholder="2-80个字符" onchange="textChange('title', 2, 80)"
+                        <#if commodity??>
+                            value="${commodity.title}"
+                        </#if>
+                    >
                         <div class="invalid-feedback">
                             请输入合法的标题，2-80个字符
                         </div>
@@ -18,7 +22,11 @@
                 <div class="form-group form-inline">
                     <label for="summary" class="col-lg-2">摘要：</label>
                     <input type="text" class="form-control col-lg-8" id="summary" name="summary"
-                        placeholder="2-140个字符" onchange="textChange('summary', 2, 140)">
+                        placeholder="2-140个字符" onchange="textChange('summary', 2, 140)"
+                        <#if commodity??>
+                            value="${commodity.summary}"
+                        </#if>
+                    >
                     <div class="invalid-feedback">
                         请输入合法的摘要，2-140个字符
                     </div>
@@ -60,14 +68,24 @@
 
             </div>
             <div class="col float-right">
-                <img src="" id="temp" style="width: 200px; height: 200px;" hidden="true" />
+                <img id="temp" style="width: 200px; height: 200px;"
+                     <#if commodity??>
+                            <#if commodity.imgUrl??>
+                                src="${commodity.imgUrl}"
+                            <#else >
+                                src="index/image/${commodity.id}"
+                            </#if>
+                     <#else >
+                        hidden="true"
+                     </#if>
+                      />
             </div>
         </div>
         <div class="row" style="margin-top: 20px">
             <div class="col form-group form-inline">
                 <label for="content" class="col-lg-1">正文：</label>
                 <textarea class="form-control col-lg-11" rows="10" id="content" name="content"
-                    placeholder="2-1000个字符" onchange="textChange('content', 2, 1000)"></textarea>
+                    placeholder="2-1000个字符" onchange="textChange('content', 2, 1000)"><#if commodity??>${commodity.content}</#if></textarea>
                 <div class="invalid-feedback">
                     请输入合法的正文描述，2-1000个字符
                 </div>
@@ -76,7 +94,11 @@
         <div class="row">
             <div class="col form-group form-inline">
                 <label for="content" class="col-lg-1">价格：</label>
-                <input class="form-control col-lg-2" id="price" name="price" onchange="priceChange()">
+                <input class="form-control col-lg-2" id="price" name="price" onchange="priceChange()"
+                    <#if commodity??>
+                            value="${commodity.price}"
+                    </#if>
+                >
                 <label for="content" class="col-lg-1">元</label>
                 <div class="invalid-feedback">
                     请输入合法的数字
@@ -85,10 +107,17 @@
         </div>
         <div class="row">
             <div class="col text-center">
-                <button class="btn btn-primary" id="submit" type="submit">发布</button>
+                <button class="btn btn-primary" id="submit" type="submit"><#if commodity??>
+                    保存
+                    <#else >
+                    发布
+                </#if></button>
             </div>
         </div>
 
+            <#if commodity??>
+                            <input name="id" value="${commodity.id}" hidden>
+            </#if>
         </form>
     </div>
 

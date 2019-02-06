@@ -59,4 +59,13 @@ public class CommodityService {
     public List<Commodity> queryCommodityListNotBuy(int userId){
         return dao.queryCommodityListNotBuy(userId);
     }
+
+    /**
+     * 更新商品信息
+     * @param commodity 商品信息
+     * @return 是否更新成功
+     */
+    public int updateCommodity(Commodity commodity){
+        return dao.updateCommodity(commodity);
+    }
 }

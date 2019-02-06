@@ -5,12 +5,14 @@ import com.tiang.interceptor.UserType;
 import com.tiang.model.Commodity;
 import com.tiang.model.User;
 import com.tiang.service.CommodityService;
+import org.apache.ibatis.executor.ReuseExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -37,9 +39,11 @@ public class SellerController {
      */
     @RequestMapping("/add")
     @RequiredLogin(UserType.SELLER)
-    public String addCommodity(String title, String summary, String content, double price,
+    public String addCommodity(Integer id, String title, String summary, String content, double price,
                                MultipartFile file, String imgUrl, ModelMap map, HttpSession session) throws IOException {
         Commodity commodity = new Commodity();
+        if(id!=null)
+            commodity.setId(id);
         commodity.setTitle(title);
         commodity.setSummary(summary);
         commodity.setContent(content);
@@ -51,7 +55,13 @@ public class SellerController {
         User user = (User) session.getAttribute("user");
         commodity.setOwnerId(user.getUserId());
 
-        int result = service.addCommodity(commodity);
+        int result;
+        if(commodity.getId()!=0){
+            result = service.updateCommodity(commodity);
+            map.put("modify", "true");
+        }else {
+            result = service.addCommodity(commodity);
+        }
         map.put("cid", commodity.getId());
         if(result!=-1)
             return "public-success";
@@ -61,7 +71,12 @@ public class SellerController {
 
     @RequestMapping("/public")
     @RequiredLogin(UserType.SELLER)
-    public String publicCommodity(HttpSession session){
+    public String publicCommodity(ModelMap map, HttpServletRequest request, HttpSession session){
+        String id = request.getParameter("id");
+        if(id!=null && !id.equals("")){
+            Commodity commodity = service.queryCommodity(Integer.parseInt(id));
+            map.put("commodity", commodity);
+        }
         return "public-commodity";
     }
 }

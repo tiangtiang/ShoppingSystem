@@ -4,6 +4,7 @@ import com.tiang.model.Commodity;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -55,4 +56,13 @@ public interface CommodityDao {
             "#{summary}, #{content}, #{price}, #{image}, #{ownerId}, #{imgUrl})")
     @Options(useGeneratedKeys = true, keyColumn = "id")
     int addCommodity(Commodity commodity);
+
+    /**
+     * 更新商品信息
+     * @param commodity 商品信息
+     * @return 是否更新成功
+     */
+    @Update("update t_commodity set title=#{title}, summary=#{summary}, content=#{content}, price=#{price}," +
+            "image=#{image}, imgUrl=#{imgUrl} where id=#{id}")
+    int updateCommodity(Commodity commodity);
 }

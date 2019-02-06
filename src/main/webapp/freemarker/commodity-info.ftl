@@ -106,7 +106,8 @@
                     </#if>
                 <#elseif user??>
                     <div>
-                        <button class="btn btn-outline-primary">编辑</button>
+                        <button class="btn btn-outline-primary"
+                                onclick="window.location.href='public?id=${commodity.id}'">编辑</button>
                     </div>
                 </#if>
             </div>
