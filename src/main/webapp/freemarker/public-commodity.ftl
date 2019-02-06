@@ -7,12 +7,20 @@
             <div class="col col-lg-8">
                 <div class="form-group form-inline">
                     <label for="title" class="col-lg-2">标题：</label>
-                    <input type="text" class="form-control col-lg-8" id="title">
+                    <input type="text" class="form-control col-lg-8"
+                           id="title" placeholder="2-80个字符" onchange="textChange('title', 2, 80)">
+                        <div class="invalid-feedback">
+                            请输入合法的标题，2-80个字符
+                        </div>
                 </div>
 
                 <div class="form-group form-inline">
                     <label for="summary" class="col-lg-2">摘要：</label>
-                    <input type="text" class="form-control col-lg-8" id="summary">
+                    <input type="text" class="form-control col-lg-8" id="summary"
+                        placeholder="2-140个字符" onchange="textChange('summary', 2, 140)">
+                    <div class="invalid-feedback">
+                        请输入合法的摘要，2-140个字符
+                    </div>
                 </div>
                 <div class="form-group form-inline">
                     <label class="col-lg-2">图片：</label>
@@ -31,8 +39,9 @@
                     <div class="col-lg-2"></div>
                     <div class="col-lg-8">
                         <div id="net" class="form-group form-inline" hidden>
-                            <input type="text" class="form-control" id="website" placeholder="图片网址">
-                            <button class="btn btn-primary" style="margin-left: 30px" onclick="downImgFormNet()">获取图片</button>
+                            <input type="text" class="form-control" id="website"
+                                   placeholder="图片网址" onchange="downImgFormNet()">
+                            <#--<button class="btn btn-primary" style="margin-left: 30px" onclick="downImgFormNet()">获取图片</button>-->
                         </div>
                         <div id="lf">
                             <input type="file" onchange="showPreview(this, 'temp')" id="local-file" class="form-control-file">
@@ -49,24 +58,32 @@
         <div class="row" style="margin-top: 20px">
             <div class="col form-group form-inline">
                 <label for="content" class="col-lg-1">正文：</label>
-                <textarea class="form-control col-lg-11" rows="10" id="content"></textarea>
+                <textarea class="form-control col-lg-11" rows="10" id="content"
+                    placeholder="2-1000个字符" onchange="textChange('content', 2, 1000)"></textarea>
+                <div class="invalid-feedback">
+                    请输入合法的正文描述，2-1000个字符
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col form-group form-inline">
                 <label for="content" class="col-lg-1">价格：</label>
-                <input class="form-control col-lg-2" id="price">
+                <input class="form-control col-lg-2" id="price" onchange="priceChange()">
                 <label for="content" class="col-lg-1">元</label>
+                <div class="invalid-feedback">
+                    请输入合法的数字
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col text-center">
-                <button class="btn btn-primary" id="submit">发布</button>
+                <button class="btn btn-primary" id="submit" onclick="publicCommodity()">发布</button>
             </div>
         </div>
     </div>
 
     <script>
+        // 切换图片上传方式
         $("input[name=upload]").click(function () {
             var id = $(this).attr('id');
             if(id == 'local'){
@@ -77,6 +94,7 @@
                 $('#lf').attr('hidden', 'hidden');
             }
         });
+        // 提前预览本地图片
         function showPreview(source, imgId) {
             var file = source.files[0];
             if(window.FileReader) {
@@ -90,10 +108,66 @@
                 fr.readAsDataURL(file);
             }
         }
+        // 提前预览web图片
         function downImgFormNet() {
             var url = $('#website').val()
             $('#temp').attr('src', url);
             $('#temp').attr('hidden', false);
+        }
+        // 发布商品
+        function publicCommodity() {
+            if(!validateText('title', 2, 80)){
+                $('#title').addClass('is-invalid');
+                return;
+            }
+            var title = $('#title').val();
+
+            if(!validateText('summary', 2, 140)){
+                $('#summary').addClass('is-invalid');
+                return;
+            }
+            var summary = $('#summary').val();
+
+            if(!validateText('content', 2, 1000)){
+                $('#content').addClass('is-invalid');
+                return;
+            }
+            var content = $('#content').val();
+
+            if(!validatePrice()){
+                $('#price').addClass('is-invalid');
+                return;
+            }
+            var price = $('#price');
+        }
+
+        // 文字框限制
+        function validateText(id, min, max) {
+            var ctrl = $('#'+id);
+            var value = String(ctrl.val());
+            if(value.length<min || value.length>max){
+                return false;
+            }
+            return true;
+        }
+        // 文本框输入事件
+        function textChange(id, min,max) {
+            if(validateText($('#'+id).attr('id'), min, max))
+                $('#'+id).removeClass('is-invalid');
+        }
+
+        function validatePrice() {
+            var ctrl = $('#price');
+            var value = ctrl.val();
+            if(value == '' || isNaN(value))
+                return false;
+            return true;
+        }
+
+        function priceChange() {
+            if(validatePrice()){
+                $('#price').removeClass('is-invalid');
+            }
         }
     </script>
 </@layout>
