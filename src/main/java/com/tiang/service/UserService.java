@@ -2,6 +2,7 @@ package com.tiang.service;
 
 import com.tiang.dao.BoughtDao;
 import com.tiang.dao.CartDao;
+import com.tiang.dao.CommodityDao;
 import com.tiang.dao.UserDao;
 import com.tiang.model.BoughtList;
 import com.tiang.model.Cart;
@@ -30,6 +31,9 @@ public class UserService {
 
     @Autowired
     private CartDao cartDao;
+
+    @Autowired
+    private CommodityDao commodityDao;
 
     /**
      * 通过用户id查询用户的信息
@@ -118,8 +122,9 @@ public class UserService {
             bl.setBuyPrice(price.get(i));
             bl.setBuyTime(new Date());
             boughtDao.addBought(bl);
+            // 更新商品的销售数量
+            commodityDao.updateSellCount(cid.get(i), count.get(i));
         }
-        // 从购物车中将所有记录删除
         return true;
     }
 

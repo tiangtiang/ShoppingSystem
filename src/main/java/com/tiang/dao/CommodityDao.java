@@ -1,10 +1,7 @@
 package com.tiang.dao;
 
 import com.tiang.model.Commodity;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,7 +16,7 @@ public interface CommodityDao {
      * 查询商品列表，但是不查询内嵌图片
      * @return 商品简要信息
      */
-    @Select("select id, title, price, imgUrl from t_commodity")
+    @Select("select id, title, price, imgUrl, sellCount from t_commodity")
     List<Commodity> queryCommodityList();
 
     /**
@@ -27,7 +24,7 @@ public interface CommodityDao {
      * @param id 商品id
      * @return 商品信息
      */
-    @Select("select id, title, summary, content, price, imgUrl from t_commodity where id=#{id}")
+    @Select("select id, title, summary, content, price, imgUrl, sellCount from t_commodity where id=#{id}")
     Commodity queryCommodity(int id);
 
     /**
@@ -43,7 +40,7 @@ public interface CommodityDao {
      * @param userId 用户id
      * @return 商品列表
      */
-    @Select("SELECT id, title, price, imgUrl FROM t_commodity t2 WHERE\n" +
+    @Select("SELECT id, title, price, imgUrl, sellCount FROM t_commodity t2 WHERE\n" +
             "\tt2.id NOT IN ( SELECT t.commodity_id FROM t_bought_list t WHERE t.user_id = 1 )")
     List<Commodity> queryCommodityListNotBuy(int userId);
 
@@ -65,4 +62,13 @@ public interface CommodityDao {
     @Update("update t_commodity set title=#{title}, summary=#{summary}, content=#{content}, price=#{price}," +
             "image=#{image}, imgUrl=#{imgUrl} where id=#{id}")
     int updateCommodity(Commodity commodity);
+
+    /**
+     * 更新商品销售量
+     * @param id 商品id
+     * @param count 新增销售个数
+     * @return 是否更新成功
+     */
+    @Update("update t_commodity set sellCount = sellCount+#{count} where id=#{id}")
+    int updateSellCount(@Param("id") int id, @Param("count") int count);
 }

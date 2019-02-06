@@ -75,15 +75,20 @@
                             <img src="index/image/${commodity.id}" style="width: 200px;height: 200px;">
                         </#if>
                         <#if user??>
-                            <#if boughtList??>
-                                <#if boughtList?seq_contains(commodity.id)>
+                            <#if boughtList?? && boughtList?seq_contains(commodity.id)>
                                     <#--是否已购买-->
                                     <span class="had">
                                         <b>已购买</b>
                                     </span>
-                                </#if>
+                            <#elseif user.isBuyer==0 && commodity.sellCount gt 0>
+                                <span class="had">
+                                        <b>已售出</b>
+                                    </span>
                             </#if>
                         </#if>
+
+
+
 
                     </div>
                 <#if commodity_index%cols==cols-1>
