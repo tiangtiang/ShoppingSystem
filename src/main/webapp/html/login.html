@@ -7,6 +7,7 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <script src="../js/jquery.js"></script>
+        <script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.js"></script>
     </head>
 <body>
 
@@ -78,7 +79,7 @@
                     method: 'POST',
                     data: {
                         userName: $('#username').val(),
-                        password: $('#password').val()
+                        password: md5($('#password').val())
                     },
                     success: function (data) {
                         if (data == 'failed') {
