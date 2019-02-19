@@ -27,12 +27,19 @@
                 <p class="font-weight-normal">${commodity.summary}</p>
                 <p class="font-weight-normal">￥ ${commodity.price}</p>
                 <p>
-                    <div>
-                        <label class="form-inline font-weight-normal">购买数量：
-                        <input type="number" class="form-control" min="0"
-                               style="width: 100px;" id="count" onchange="numChange(this)">
-                        </label>
-                    </div>
+                    <#if user?? && user.isBuyer == 0>
+                        <div>
+                            <p class="font-weight-normal">已售出${commodity.sellCount}件</p>
+                        </div>
+                    <#else >
+                        <div>
+                            <label class="form-inline font-weight-normal">购买数量：
+                                <input type="number" class="form-control" min="0"
+                                       style="width: 100px;" id="count" onchange="numChange(this)">
+                            </label>
+                        </div>
+                    </#if>
+
                 </p>
 
                 <#if user?? && user.isBuyer == 1>
