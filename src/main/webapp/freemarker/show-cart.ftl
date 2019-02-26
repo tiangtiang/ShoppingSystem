@@ -135,7 +135,7 @@
     function getValue(cls) {
         var value = [];
         $('.'+cls).each(function () {
-            value.push($(this).text());
+            value.push($(this).text().replace(',', ''));
         });
         return value;
     }
