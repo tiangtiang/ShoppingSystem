@@ -31,7 +31,7 @@
                         <div>
                             <p class="font-weight-normal">已售出${commodity.sellCount}件</p>
                         </div>
-                    <#else >
+                    <#elseif user?? && user.isBuyer == 1>
                         <div>
                             <label class="form-inline font-weight-normal">购买数量：
                                 <input type="number" class="form-control" min="0"
@@ -78,7 +78,7 @@
                             var confirmClick = function () {
                                 // 没有填数量就隐藏
                                 var num = $('#count');
-                                if(num.val() == ''|| num.val()<=0){
+                                if(num.val() == ''|| num.val()<=0 || num.val().indexOf('.') != -1){
                                     num.addClass('is-invalid');
                                     $('#inCart').modal('hide');
                                     return;
@@ -123,7 +123,7 @@
         <script>
             var numChange = function (cnt) {
                 cnt = $(cnt);
-                if(cnt.val() != '' && cnt.val() > 0){
+                if(cnt.val() != '' && cnt.val() > 0 && cnt.val().indexOf('.') == -1){
                     cnt.removeClass('is-invalid');
                 }
             }

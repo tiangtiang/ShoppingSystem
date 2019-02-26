@@ -101,7 +101,7 @@
                 >
                 <label for="content" class="col-lg-1">元</label>
                 <div class="invalid-feedback">
-                    请输入合法的数字
+                    请输入合法的数字，保留两位小数
                 </div>
             </div>
         </div>
@@ -198,8 +198,11 @@
         function validatePrice() {
             var ctrl = $('#price');
             var value = ctrl.val();
-            if(value == '' || isNaN(value))
+            if(value == '' || isNaN(value)){
                 return false;
+            }else if(value.split('.')[1].length > 2){
+                return false;
+            }
             return true;
         }
         // 价格输入框输入事件

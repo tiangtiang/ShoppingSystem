@@ -67,7 +67,13 @@
                 </#if>
                     <div class="text-center align-self-start ccell col-lg-3">
                         <a href="./commodity?id=${commodity.id}" style="text-decoration: none; color: black; cursor: pointer;">
-                        <p>标题：${commodity.title}</p>
+                        <p>标题：
+                            <#if commodity.title?length lt 10>
+                                ${commodity.title}
+                            <#else>
+                                ${commodity.title?substring(0, 10)}...
+                            </#if>
+                        </p>
                         <p>价格：${commodity.price} 元</p>
                         <#if commodity.imgUrl??>
                             <img src="${commodity.imgUrl}" style="width: 200px;height: 200px;">
