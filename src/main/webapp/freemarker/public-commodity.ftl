@@ -154,8 +154,15 @@
             $('#temp').attr('hidden', false);
             netChange();
         }
+        var isSubmit = false;
         // 发布商品
         function publicCommodity() {
+            if(!isSubmit){
+                isSubmit = true;
+            }else{
+                console.log('已经提交过了')
+                return false;
+            }
             if (!validateText('title', 2, 80)) {
                 $('#title').addClass('is-invalid');
                 return false;
