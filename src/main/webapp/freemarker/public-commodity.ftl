@@ -157,12 +157,6 @@
         var isSubmit = false;
         // 发布商品
         function publicCommodity() {
-            if(!isSubmit){
-                isSubmit = true;
-            }else{
-                console.log('已经提交过了')
-                return false;
-            }
             if (!validateText('title', 2, 80)) {
                 $('#title').addClass('is-invalid');
                 return false;
@@ -184,6 +178,13 @@
             }
             if(!checkImage())
                 return false;
+            // 判断该表单是否已经提交过
+            if(!isSubmit){
+                isSubmit = true;
+            }else{
+                console.log('已经提交过了')
+                return false;
+            }
             return true;
         }
 
@@ -207,7 +208,7 @@
             var value = ctrl.val();
             if(value == '' || isNaN(value)){
                 return false;
-            }else if(value.split('.')[1].length > 2){
+            }else if(value.indexOf('.')!=-1 && value.split('.')[1].length > 2){
                 return false;
             }
             return true;
