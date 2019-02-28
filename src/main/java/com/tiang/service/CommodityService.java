@@ -66,6 +66,11 @@ public class CommodityService {
      * @return 是否更新成功
      */
     public int updateCommodity(Commodity commodity){
-        return dao.updateCommodity(commodity);
+//        如果没有上传图片信息，就不更新图片
+        if(commodity.getImgUrl() == null && (commodity.getImage() == null ||
+            commodity.getImage().length == 0))
+            return dao.updateCommodityWithoutImage(commodity);
+        else
+            return dao.updateCommodity(commodity);
     }
 }

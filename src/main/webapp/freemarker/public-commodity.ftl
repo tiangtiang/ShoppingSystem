@@ -78,7 +78,7 @@
                      <#else >
                         hidden="true"
                      </#if>
-                      />
+                      onerror="isRightImage=false" onload="isRightImage=true"/>
             </div>
         </div>
         <div class="row" style="margin-top: 20px">
@@ -219,8 +219,19 @@
                 $('#price').removeClass('is-invalid');
             }
         }
+        var isRightImage = false;
+        $('#temp').onerror = function () {
+            isRightImage = false;
+        }
+        $('#temp').onload = function () {
+            isRightImage = true;
+        }
         // 检查图片是否存在
         function checkImage() {
+            <#if commodity??>
+                if(isRightImage)
+                    return true;
+            </#if>
             if(!$('#net').attr('hidden')){
                 var value = $('#website').val();
                 if(value == ''){

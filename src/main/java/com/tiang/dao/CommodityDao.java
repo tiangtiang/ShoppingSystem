@@ -64,6 +64,15 @@ public interface CommodityDao {
     int updateCommodity(Commodity commodity);
 
     /**
+     * 更新商品信息， 除了图片
+     * @param commodity 商品信息
+     * @return 是否更新成功
+     */
+    @Update("update t_commodity set title=#{title}, summary=#{summary}, content=#{content}, price=#{price}" +
+            " where id=#{id}")
+    int updateCommodityWithoutImage(Commodity commodity);
+
+    /**
      * 更新商品销售量
      * @param id 商品id
      * @param count 新增销售个数
