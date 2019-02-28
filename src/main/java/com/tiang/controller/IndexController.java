@@ -90,7 +90,7 @@ public class IndexController {
     @ResponseBody
     public Object login(String userName, String password, HttpServletRequest request){
         User user = userService.queryUser(userName);
-        if(user.getPassword().equals(password)) {
+        if(user!=null && user.getPassword().equals(password)) {
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
             return user;

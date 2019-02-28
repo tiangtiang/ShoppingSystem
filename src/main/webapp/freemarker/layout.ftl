@@ -20,8 +20,13 @@
 
 <body style="background: #F3F3F3">
 
+<style>
+    #nav a{
+        color: #ffffff;
+    }
+</style>
 <#--首部导航栏-->
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #6eb5e8;" id="nav">
     <a class="navbar-brand" href="./index">首页</a>
     <div class="collapse navbar-collapse" id="navbarNav"></div>
             <#if user??>

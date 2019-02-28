@@ -3,7 +3,7 @@
 <@layout>
 
         <#if user?? && user.isBuyer==1>
-            <ul class="nav nav-tabs" style="margin-top: 10px">
+            <ul class="nav nav-tabs" style="margin-top: 10px;margin-left: 10rem;">
                 <li class="nav-item">
                     <a class="nav-link active" id="allList" data-toggle="tab" role="tab"
                         aria-selected="true" style="cursor: pointer">所有商品</a>
@@ -82,9 +82,11 @@
                         </#if>
                     </a>
                         <#if user?? && user.isBuyer==0 && commodity.sellCount == 0>
-                        <#--未售出的商品要显示删除按钮-->
-                                    <button class="btn btn-link" data-toggle="modal"
-                                            data-target="#delCommodity" data-id="${commodity.id}">删除</button>
+                            <div class="card-body">
+                            <#--未售出的商品要显示删除按钮-->
+                                <a class="btn btn-outline-danger" data-toggle="modal"
+                                        data-target="#delCommodity" data-id="${commodity.id}">删除</a>
+                            </div>
                         </#if>
                 </div>
             </#list>
