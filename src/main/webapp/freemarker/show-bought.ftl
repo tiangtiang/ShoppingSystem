@@ -30,7 +30,7 @@
                     </td>
                     <td>${item.buyTime?string["yyyy/MM/dd HH:mm"]}</td>
                     <td class="count">${item.count}</td>
-                    <td>${item.buyPrice} ￥</td>
+                    <td>￥${item.buyPrice} </td>
                 </tr>
                 <#assign i=i+1>
                 <#assign total=total+item.count*item.buyPrice>
@@ -41,7 +41,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><span style="margin-right: 10px">${total}</span> ￥</td>
+                <td>￥<span style="margin-right: 10px">${total}</span> </td>
             </tr>
             </tbody>
 

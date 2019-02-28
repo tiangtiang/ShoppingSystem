@@ -25,7 +25,7 @@
             <div class="col">
                 <p class="font-weight-bold"><h4>${commodity.title}</h4></p>
                 <p class="font-weight-normal">${commodity.summary}</p>
-                <p class="font-weight-normal">￥ ${commodity.price}</p>
+                <p class="font-weight-normal">￥${commodity.price}</p>
                 <p>
                     <#if user?? && user.isBuyer == 0>
                         <div>
@@ -48,7 +48,7 @@
                         <div class="form-inline">
                             <button class="btn btn-danger disabled" aria-disabled="true">已购买</button>
                             <span class="font-weight-light" style="margin-left: 10px">
-                                上次购买的价格是：${bought.buyPrice}￥</span>
+                                上次购买的价格是：￥${bought.buyPrice}</span>
                         </div>
                     <#else>
                         <#--买家登录，可以购买商品-->
