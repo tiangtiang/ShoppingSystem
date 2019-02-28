@@ -20,19 +20,6 @@
             .inner{
                 margin-top: 20px;
             }
-            .ccell{
-                background: #f0e9e9;
-                margin-right: 10px;
-                margin-left: 10px;
-                margin-bottom: 10px;
-                padding-top: 5px;
-                padding-bottom: 5px;
-                -webkit-border-radius: 10px;
-                -moz-border-radius: 10px;
-                border-radius: 10px;
-                width: 300px;
-                height: 320px;
-            }
             .had{
                 position: absolute;
                 top: 0;
@@ -40,49 +27,50 @@
                 height: 0;
                 width: 0;
                 border-style: solid;
-                border-width: 22px;
-                border-color: #aaa transparent transparent #aaa;
-                border-top-left-radius: 10px;
+                border-width: 40px;
+                border-color: #3faaaa transparent transparent #3faaaa;
+                border-top-left-radius: 3px;
             }
             .had b{
                 position: absolute;
-                top: -12px;
-                left: -25px;
+                top: -2px;
+                left: -40px;
                 width: 40px;
                 text-align: center;
                 white-space: nowrap;
-                line-height: 14px;
-                font-size: 12px;
+                line-height: 5px;
+                font-size: 20px;
                 transform: rotate(-45deg);
                 color: #eee;
             }
         </style>
-        <#--定义图片展示列数-->
-        <#assign cols = 3>
 
         <div class="container inner" id="all">
+            <div class="card-columns">
             <#list goods as commodity>
-                <#if commodity_index%cols==0>
-                    <div class="row inner">
-                </#if>
-                    <div class="text-center align-self-start ccell col-lg-3">
-                        <a href="./commodity?id=${commodity.id}" style="text-decoration: none; color: black; cursor: pointer;">
-                        <p>标题：
-                            <#if commodity.title?length lt 10>
-                                ${commodity.title}
+
+                <div class="card">
+                    <a href="./commodity?id=${commodity.id}" style="text-decoration: none; color: black; cursor: pointer;">
+                        <img class="card-img-top" src="
+                            <#if commodity.imgUrl??>
+                                ${commodity.imgUrl}
                             <#else>
-                                ${commodity.title?substring(0, 10)}...
+                                index/image/${commodity.id}
                             </#if>
-                        </p>
-                        <p>价格：${commodity.price} 元</p>
-                        <#if commodity.imgUrl??>
-                            <img src="${commodity.imgUrl}" style="width: 200px;height: 200px;">
-                        <#else>
-                            <img src="index/image/${commodity.id}" style="width: 200px;height: 200px;">
-                        </#if>
+                            ">
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                <#if commodity.title?length lt 10>
+                                    ${commodity.title}
+                                <#else>
+                                    ${commodity.title?substring(0, 10)}...
+                                </#if>
+                            </h3>
+                            <p class="card-text">￥${commodity.price}</p>
+                        </div>
                         <#if user??>
                             <#if boughtList?? && boughtList?seq_contains(commodity.id)>
-                                    <#--是否已购买-->
+                            <#--是否已购买-->
                                     <span class="had">
                                         <b>已购买</b>
                                     </span>
@@ -92,17 +80,15 @@
                                     </span>
                             </#if>
                         </#if>
-                        </a>
+                    </a>
                         <#if user?? && user.isBuyer==0 && commodity.sellCount == 0>
                         <#--未售出的商品要显示删除按钮-->
                                     <button class="btn btn-link" data-toggle="modal"
                                             data-target="#delCommodity" data-id="${commodity.id}">删除</button>
                         </#if>
-                    </div>
-                <#if commodity_index%cols==cols-1>
-                    </div>
-                </#if>
+                </div>
             </#list>
+            </div>
         </div>
 
 <div class="modal fade" id="delCommodity" tabindex="-1" role="dialog" aria-hidden="true">
