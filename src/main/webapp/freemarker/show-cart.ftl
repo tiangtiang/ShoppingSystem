@@ -30,7 +30,7 @@
                     <td>${item.commodity.title}</td>
                     <td>${item.addTime?string["yyyy/MM/dd HH:mm"]}</td>
                     <td class="count">${item.count}</td>
-                    <td>￥<span class="price" style="margin-right: 10px">${item.commodity.price}</span></td>
+                    <td>￥<span class="price" style="margin-right: 10px">${item.commodity.price?c}</span></td>
                     <td hidden="hidden" class="cid">${item.commodityId}</td>
                 </tr>
                 <#assign i=i+1>
@@ -41,7 +41,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>￥<span style="margin-right: 10px">${total}</span></td>
+                <td>￥<span style="margin-right: 10px">${total?c}</span></td>
             </tr>
         </tbody>
 

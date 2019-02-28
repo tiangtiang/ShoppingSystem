@@ -96,7 +96,7 @@
                 <label for="content" class="col-lg-1">价格：</label>
                 <input class="form-control col-lg-2" id="price" name="price" onchange="priceChange()"
                     <#if commodity??>
-                            value="${commodity.price}"
+                            value="${commodity.price?c}"
                     </#if>
                 >
                 <label for="content" class="col-lg-1">元</label>
