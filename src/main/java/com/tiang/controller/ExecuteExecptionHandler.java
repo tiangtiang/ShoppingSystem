@@ -27,4 +27,13 @@ public class ExecuteExecptionHandler {
             return "redirect:html/login.html";
         }
     }
+
+    /**
+     * 当发生其他无法处理的异常时，跳转到错误界面
+     * @return 错误界面地址
+     */
+    @ExceptionHandler(Exception.class)
+    public String globalException(){
+        return "redirect:html/500-error.html";
+    }
 }

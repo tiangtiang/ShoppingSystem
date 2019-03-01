@@ -3,7 +3,7 @@
 <@layout>
 
         <#if user?? && user.isBuyer==1>
-            <ul class="nav nav-tabs" style="margin-top: 10px;margin-left: 10rem;">
+            <ul class="nav nav-tabs" style="margin-top: 10px;margin-left: 10rem;margin-right: 10rem">
                 <li class="nav-item">
                     <a class="nav-link active" id="allList" data-toggle="tab" role="tab"
                         aria-selected="true" style="cursor: pointer">所有商品</a>
