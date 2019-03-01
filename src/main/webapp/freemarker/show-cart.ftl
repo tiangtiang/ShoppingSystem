@@ -8,9 +8,24 @@
     .list{
         margin-top: 20px;
     }
+    .btn-right{
+        position: absolute;
+        top: 50%;
+        right: 0%;
+        transform: translate(-50%, 0);
+    }
 </style>
+<script src="js/cart.js"></script>
 <div class="container">
-    <h3 style="margin-top: 20px">购物车</h3>
+    <div class="row">
+        <div class="col">
+            <h3 style="margin-top: 20px">购物车</h3>
+        </div>
+        <div class="col">
+            <button id="btn-modify" class="btn btn-outline-warning btn-right" onclick="startModify()">编辑</button>
+        </div>
+    </div>
+
     <table class="table table-striped list" id="data-table">
         <thead>
             <tr>
@@ -29,8 +44,18 @@
                     <th scope="row">${i}</th>
                     <td>${item.commodity.title}</td>
                     <td>${item.addTime?string["yyyy/MM/dd HH:mm"]}</td>
-                    <td class="count">${item.count}</td>
-                    <td>￥<span class="price" style="margin-right: 10px">${item.commodity.price?c}</span></td>
+                    <td class="count">
+                        <input id="cc" type="number" class="form-control" min="1" value="${item.count}"
+                               style="width: 100px;" onchange="restrictNumber()" readonly>
+                    </td>
+                    <td>
+                        ￥
+                        <span class="price" style="margin-right: 10px">
+                            ${item.commodity.price?c}
+                        </span>
+                        <button class="btn btn-outline-danger modify" style="margin-left: 50%;" hidden onclick="deleteCart()">删除</button>
+
+                    </td>
                     <td hidden="hidden" class="cid">${item.commodityId}</td>
                 </tr>
                 <#assign i=i+1>
@@ -41,7 +66,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>￥<span style="margin-right: 10px">${total?c}</span></td>
+                <td>￥<span style="margin-right: 10px" id="total">${total?c}</span></td>
             </tr>
         </tbody>
 
@@ -51,6 +76,11 @@
         <div class="col">
             <button class="btn btn-primary" onclick="history.go(-1)">
                 退出
+            </button>
+        </div>
+        <div class="col modify" hidden>
+            <button class="btn btn-primary" onclick="endModify()">
+                编辑完成
             </button>
         </div>
         <div class="col">
