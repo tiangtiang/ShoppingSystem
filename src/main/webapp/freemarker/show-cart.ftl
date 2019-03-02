@@ -45,15 +45,16 @@
                     <td>${item.commodity.title}</td>
                     <td>${item.addTime?string["yyyy/MM/dd HH:mm"]}</td>
                     <td class="count">
-                        <input id="cc" type="number" class="form-control" min="1" value="${item.count}"
+                        <input type="number" class="form-control cc" min="1" value="${item.count}"
                                style="width: 100px;" onchange="restrictNumber()" readonly>
                     </td>
-                    <td>
+                    <td style="position: relative">
                         ￥
                         <span class="price" style="margin-right: 10px">
                             ${item.commodity.price?c}
                         </span>
-                        <button class="btn btn-outline-danger modify" style="margin-left: 50%;" hidden onclick="deleteCart()">删除</button>
+                        <button class="btn btn-outline-danger modify" style="position:absolute;left: 50%;"
+                                onclick="deleteCart()" hidden>删除</button>
 
                     </td>
                     <td hidden="hidden" class="cid">${item.commodityId}</td>
@@ -119,6 +120,20 @@
                                 </div>
                             </div>
                         </div>
+        <#--是否删除商品-->
+        <div class="modal fade" id="del-item" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        确定要删除该商品吗？
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirm-del">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 <link type="text/css" rel="stylesheet" href="./css/common.css">
 <script src="./js/common.js"></script>
