@@ -4,6 +4,7 @@ import com.tiang.interceptor.RequiredLogin;
 import com.tiang.model.Cart;
 import com.tiang.model.User;
 import com.tiang.service.UserService;
+import com.tiang.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -48,8 +49,44 @@ public class CartController {
                             @RequestParam("prices[]") List<Double> prices, HttpSession session){
         User user = (User) session.getAttribute("user");
         if(userService.buyCommodity(user.getUserId(), cids, counts, prices))
-            return "success";
+            return Constant.SUCCESS;
         else
-            return "failed";
+            return Constant.FAIL;
+    }
+
+    /**
+     * 删除购物车中的某一条记录
+     * @param cid 商品id
+     * @param session 会话
+     * @return 修改结果
+     */
+    @ResponseBody
+    @RequiredLogin
+    @RequestMapping("/cart/del")
+    public String deleteCartItem(int cid, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if(userService.deleteCartItem(user.getUserId(), cid)>-1){
+            return Constant.SUCCESS;
+        }else
+            return Constant.FAIL;
+    }
+
+    /**
+     * 批量更新购物车中商品的购买数量
+     * @param cids 商品编号列表
+     * @param counts 购买数量列表
+     * @param session 会话
+     * @return 是否更新成功
+     */
+    @RequiredLogin
+    @ResponseBody
+    @RequestMapping("/cart/update")
+    public String updateCartItemsCount(@RequestParam("cids[]") List<Integer> cids,
+                                  @RequestParam("counts[]") List<Integer> counts, HttpSession session){
+        User user = (User)session.getAttribute("user");
+        if(userService.updateCartItems(user.getUserId(), cids, counts)){
+            return Constant.SUCCESS;
+        }else
+            return Constant.FAIL;
     }
 }

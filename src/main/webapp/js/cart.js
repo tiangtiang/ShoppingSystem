@@ -38,23 +38,50 @@ function deleteCart() {
     $('#confirm-del').click(
         function () {
             var tr = btn.parents('tr');
-            // 查找编号
-            var num = tr.children('th').text();
-            //比该行编号大的行的编号都减一
-            btn.parents('tbody').find('th').each(function (i, item) {
-                if(!isNaN($(item).text())){
-                    var nn = parseInt($(item).text());
-                    if(nn > num){
-                        $(item).text(nn-1);
+            $.ajax('cart/del',{
+                method: 'POST',
+                data: {
+                    cid: tr.find('.cid').text()
+                },
+                success: function (result) {
+                    if(result == 'success') {
+                        // 查找编号
+                        var num = tr.children('th').text();
+                        //比该行编号大的行的编号都减一
+                        btn.parents('tbody').find('th').each(function (i, item) {
+                            if (!isNaN($(item).text())) {
+                                var nn = parseInt($(item).text());
+                                if (nn > num) {
+                                    $(item).text(nn - 1);
+                                }
+                            }
+                        });
+                        // 查找该行的价格和数量，删掉该行，同时重新计算总价
+                        var price = parseFloat(tr.find('.price').text());
+                        var cnt = parseInt(tr.find('.cc').val());
+                        tr.remove();
+                        var total = parseFloat($('#total').text()) - cnt * price;
+                        $('#total').text(total);
+
+                        var div = load('删除成功');
+                        setTimeout(function () {
+                            div.remove();
+                        }, 1000);
+                    }else{
+                        var div = load('删除失败');
+                        setTimeout(function () {
+                            div.remove();
+                        }, 1000);
                     }
+                },
+                error: function () {
+                    var div = load('请求发送失败');
+                    setTimeout(function () {
+                        div.remove();
+                    }, 1000);
                 }
             });
-            // 查找该行的价格和数量，删掉该行，同时重新计算总价
-            var price = parseFloat(tr.find('.price').text());
-            var cnt = parseInt(tr.find('.cc').val());
-            tr.remove();
-            var total = parseFloat($('#total').text()) - cnt*price;
-            $('#total').text(total);
+            
         }
     );
 }

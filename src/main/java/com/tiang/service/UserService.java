@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -74,7 +73,7 @@ public class UserService {
     }
 
     /**
-     * 更新购物车中商品的数量
+     * 更新购物车中商品的数量，单条记录
      * @param cart 购物车记录
      * @return 是否更新成功
      */
@@ -144,6 +143,35 @@ public class UserService {
      */
     public int deleteCommodity(int cid){
         return commodityDao.deleteCommodity(cid);
+    }
+
+    /**
+     * 从购物车中删除某条记录
+     * @param userId 用户id
+     * @param cid 商品id
+     * @return 是否删除成功
+     */
+    public int deleteCartItem(int userId, int cid){
+        return cartDao.deleteCart(userId, cid);
+    }
+
+    /**
+     * 更新购物车中商品的购买数量，多条记录
+     * @param userId 用户编号
+     * @param cids 商品id列表
+     * @param counts 每个商品更新之后的数量
+     * @return 是否更新成功
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean updateCartItems(int userId, List<Integer> cids, List<Integer> counts){
+        for(int i=0;i<cids.size();i++){
+            Cart cart = new Cart();
+            cart.setCount(counts.get(i));
+            cart.setCommodityId(cids.get(i));
+            cart.setUserId(userId);
+            cartDao.updateCommodityCount(cart);
+        }
+        return true;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
