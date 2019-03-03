@@ -6,9 +6,42 @@ function startModify() {
 }
 //结束编辑模式，提交修改
 function endModify() {
-    $('.modify').attr('hidden', 'true');
-    $('.cc').attr('readonly', 'true');
-    $('#btn-modify').removeAttr('disabled');
+    var cids = [];
+    var counts = [];
+    $('.modified').each(function (i, item) {
+        cids.push($(item).find('.cid').text());
+        counts.push($(item).find('.cc').val());
+    });
+    
+    $.ajax('cart/update', {
+        method: 'POST',
+        data: {
+            cids: cids,
+            counts: counts
+        },
+        success: function (result) {
+            if(result == 'success'){
+                var div = load('修改成功');
+                setTimeout(function () {
+                    div.remove();
+                }, 1000);
+                $('.modify').attr('hidden', 'true');
+                $('.cc').attr('readonly', 'true');
+                $('#btn-modify').removeAttr('disabled');
+            }else{
+                var div = load('修改失败');
+                setTimeout(function () {
+                    div.remove();
+                }, 1000);
+            }
+        },
+        error: function () {
+            var div = load('请求发送失败');
+            setTimeout(function () {
+                div.remove();
+            }, 1000);
+        }
+    });
 }
 //限制价格输入框的输入，必须为大于1的正整数
 function restrictNumber() {
@@ -27,6 +60,7 @@ function restrictNumber() {
         sum += count * parseFloat($(item).text());
     });
     $('#total').text(sum);
+    num.parents('tr').addClass('modified');
 }
 //删除当前商品
 function deleteCart() {

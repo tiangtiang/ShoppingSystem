@@ -81,7 +81,7 @@
         </div>
         <div class="col modify" hidden>
             <button class="btn btn-primary" onclick="endModify()">
-                编辑完成
+                保存编辑
             </button>
         </div>
         <div class="col">
@@ -140,7 +140,7 @@
 <script>
     var buyClick = function () {
         var cidList = getValue('cid');
-        var countList = getValue('count');
+        var countList = getCountValue();
         var priceList = getValue('price');
         var data = {
             cids: cidList,
@@ -175,6 +175,14 @@
         }else{
             $('#btnBuy').attr('data-target', '#buyCommodity');
         }
+    }
+
+    function getCountValue() {
+        var value = [];
+        $('.cc').each(function (i, item) {
+            value.push($(item).val());
+        });
+        return value;
     }
 
     function getValue(cls) {
