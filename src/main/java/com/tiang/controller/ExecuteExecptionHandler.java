@@ -34,6 +34,6 @@ public class ExecuteExecptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public String globalException(){
-        return "redirect:html/500-error.html";
+        return "redirect:/ShoppingSystem/html/500-error.html";
     }
 }

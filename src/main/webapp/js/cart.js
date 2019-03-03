@@ -1,8 +1,15 @@
 //进入编辑模式
 function startModify() {
-    $('.modify').removeAttr('hidden');
-    $('.cc').removeAttr('readonly');
-    $('#btn-modify').attr('disabled', 'disabled');
+    if($('tbody').find('tr').length === 1){
+        var div = load('购物车中没有商品');
+        setTimeout(function () {
+            div.remove();
+        }, 1000);
+    }else {
+        $('.modify').removeAttr('hidden');
+        $('.cc').removeAttr('readonly');
+        $('#btn-modify').attr('disabled', 'disabled');
+    }
 }
 //结束编辑模式，提交修改
 function endModify() {
@@ -12,36 +19,41 @@ function endModify() {
         cids.push($(item).find('.cid').text());
         counts.push($(item).find('.cc').val());
     });
-    
-    $.ajax('cart/update', {
-        method: 'POST',
-        data: {
-            cids: cids,
-            counts: counts
-        },
-        success: function (result) {
-            if(result == 'success'){
-                var div = load('修改成功');
-                setTimeout(function () {
-                    div.remove();
-                }, 1000);
-                $('.modify').attr('hidden', 'true');
-                $('.cc').attr('readonly', 'true');
-                $('#btn-modify').removeAttr('disabled');
-            }else{
-                var div = load('修改失败');
+    if(counts.length > 0) {
+        $.ajax('cart/update', {
+            method: 'POST',
+            data: {
+                cids: cids,
+                counts: counts
+            },
+            success: function (result) {
+                if (result === 'success') {
+                    var div = load('修改成功');
+                    setTimeout(function () {
+                        div.remove();
+                    }, 1000);
+                    $('.modify').attr('hidden', 'true');
+                    $('.cc').attr('readonly', 'true');
+                    $('#btn-modify').removeAttr('disabled');
+                } else {
+                    var div = load('修改失败');
+                    setTimeout(function () {
+                        div.remove();
+                    }, 1000);
+                }
+            },
+            error: function () {
+                var div = load('请求发送失败');
                 setTimeout(function () {
                     div.remove();
                 }, 1000);
             }
-        },
-        error: function () {
-            var div = load('请求发送失败');
-            setTimeout(function () {
-                div.remove();
-            }, 1000);
-        }
-    });
+        });
+    }else{
+        $('.modify').attr('hidden', 'true');
+        $('.cc').attr('readonly', 'true');
+        $('#btn-modify').removeAttr('disabled');
+    }
 }
 //限制价格输入框的输入，必须为大于1的正整数
 function restrictNumber() {
