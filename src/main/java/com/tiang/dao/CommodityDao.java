@@ -41,7 +41,7 @@ public interface CommodityDao {
      * @return 商品列表
      */
     @Select("SELECT id, title, price, imgUrl, sellCount FROM t_commodity t2 WHERE\n" +
-            "\tt2.id NOT IN ( SELECT t.commodity_id FROM t_bought_list t WHERE t.user_id = 1 )")
+            "\tt2.id NOT IN ( SELECT t.commodity_id FROM t_bought_list t WHERE t.user_id = #{userId} )")
     List<Commodity> queryCommodityListNotBuy(int userId);
 
     /**

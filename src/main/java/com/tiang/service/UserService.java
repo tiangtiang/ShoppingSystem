@@ -174,6 +174,15 @@ public class UserService {
         return true;
     }
 
+    /**
+     * 新增用户
+     * @param user 用户信息
+     * @return 是否插入成功
+     */
+    public boolean addUser(User user){
+        return userDao.insertUser(user) > 0;
+    }
+
     @Transactional(propagation = Propagation.REQUIRED)
     public void delete(){
         userDao.deleteUser(5);

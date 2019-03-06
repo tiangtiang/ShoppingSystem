@@ -38,6 +38,15 @@ public interface UserDao {
     })
     User queryUserByName(String userName);
 
+    /**
+     * 新增用户
+     * @param user 用户信息
+     * @return 是否插入成功
+     */
+    @Insert("insert into t_user (username, password, nickname, isBuyer) values(#{userName}, #{password}, #{nickName}," +
+            "#{isBuyer});")
+    int insertUser(User user);
+
     @Delete("delete from t_user where user_id=#{id}")
     void deleteUser(int id);
 

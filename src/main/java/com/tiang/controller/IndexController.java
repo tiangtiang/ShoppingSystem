@@ -4,6 +4,7 @@ import com.tiang.model.Commodity;
 import com.tiang.model.User;
 import com.tiang.service.CommodityService;
 import com.tiang.service.UserService;
+import com.tiang.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -107,5 +108,14 @@ public class IndexController {
     public String logout(HttpSession session){
         session.removeAttribute("user");
         return "redirect:index";
+    }
+
+    @RequestMapping("/register")
+    public String register(User user){
+        if(userService.addUser(user)){
+            return Constant.SUCCESS;
+        }else{
+            return Constant.FAIL;
+        }
     }
 }

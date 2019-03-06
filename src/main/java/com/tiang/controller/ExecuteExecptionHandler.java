@@ -24,7 +24,7 @@ public class ExecuteExecptionHandler {
         if(header!=null && header.equals("XMLHttpRequest")){
             return "needLogin";
         }else {
-            return "redirect:html/login.html";
+            return "redirect:/html/login.html";
         }
     }
 
@@ -34,6 +34,6 @@ public class ExecuteExecptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public String globalException(){
-        return "redirect:/ShoppingSystem/html/500-error.html";
+        return "redirect:/html/500-error.html";
     }
 }
