@@ -110,9 +110,32 @@ public class IndexController {
         return "redirect:index";
     }
 
+    /**
+     * 现实注册界面
+     * @return 注册界面地址
+     */
     @RequestMapping("/register")
-    public String register(User user){
+    public String showRegister(ModelMap map, HttpSession session){
+        if(session.getAttribute("user") != null)
+            map.put("user", session.getAttribute("user"));
+        return "register";
+    }
+    /**
+     * 用户注册，如果注册成功，直接添加到session中表示已经登录
+     * @param user 用户信息
+     * @param session 会话信息
+     * @return 注册结果
+     */
+    @RequestMapping("/register/do")
+    @ResponseBody
+    public String register(User user, HttpSession session){
+        if(userService.queryUser(user.getUserName())!=null){
+            return Constant.EXIST;
+        }
         if(userService.addUser(user)){
+            if(session.getAttribute("user") == null){
+                session.setAttribute("user", user);
+            }
             return Constant.SUCCESS;
         }else{
             return Constant.FAIL;

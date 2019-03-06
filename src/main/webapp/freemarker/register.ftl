@@ -1,23 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <script src="../js/jquery.js"></script>
-    <script src="../js/md5.js"></script>
-    <title>注册</title>
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #6eb5e8;">
-    <a class="navbar-brand" href="../index">首页</a>
-    <div class="collapse navbar-collapse" id="navbarNav"></div>
-    <div class="my-2 my-lg-0 nav-item">
-        <a class="nav-link my-2 my-sm-0" href="#" style="color: #fff;">注册</a>
-    </div>
-</nav>
-
+<#include "./layout.ftl">
+<@layout>
+<script src="js/md5.js"></script>
+<script src="js/common.js"></script>
+<link href="css/common.css" rel="stylesheet">
 <style>
     :root {
         --input-padding-x: 1.5rem;
@@ -109,6 +94,27 @@
     }
 
 </style>
+<#if user??>
+    <div class="container" style="text-align: center">
+        <h2 style="margin-top: 20rem">您已经有账号了，无法重复注册，将于<span id="time">5</span>秒后返回首页！</h2>
+    </div>
+    <script>
+        //设定倒数秒数
+        var t = 5;
+        //显示倒数秒数
+        function showTime(){
+            t -= 1;
+            $('#time').text(t);
+            if(t==0){
+                location.href='index';
+            }
+            //每秒执行一次,showTime()
+            setTimeout("showTime()",1000);
+        }
+        //执行showTime()
+        showTime();
+    </script>
+<#else>
 <div class="container">
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -208,30 +214,37 @@
         }
         var isBuyer = $("input[name='type']:checked").val();
         $.ajax(
-            {
-                url: '../register',
-                method: 'POST',
-                data: {
-                    userName: $('#username').val(),
-                    password: md5($('#password').val()),
-                    nickName: nickName.val(),
-                    isBuyer: isBuyer
-                },
-                success: function (data) {
-                    if (data == 'failed') {
-                        $('#error').text("注册失败");
+                {
+                    url: './register/do',
+                    method: 'POST',
+                    data: {
+                        userName: $('#username').val(),
+                        password: md5($('#password').val()),
+                        nickName: nickName.val(),
+                        isBuyer: isBuyer
+                    },
+                    success: function (data) {
+                        if (data == 'failed') {
+                            $('#error').text("注册失败");
+                            $('#error').removeAttr('hidden');
+                        } else if(data == 'success'){
+                            var div = load("注册成功");
+                            setTimeout(function () {
+                                div.remove();
+                                window.location.href = "index";
+                            }, 1000);
+                        }else if(data == 'exist'){
+                            $('#error').text("用户名已被使用");
+                            $('#error').removeAttr('hidden');
+                        }
+                    },
+                    error: function () {
+                        $('#error').text("访问服务器失败");
                         $('#error').removeAttr('hidden');
-                    } else {
-                        alert('注册成功');
                     }
-                },
-                error: function () {
-                    $('#error').text("访问服务器失败");
-                    $('#error').removeAttr('hidden');
                 }
-            }
         )
     }
 </script>
-</body>
-</html>
+</#if>
+</@layout>
