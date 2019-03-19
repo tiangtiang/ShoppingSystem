@@ -17,12 +17,12 @@ public interface UserDao {
      * @param id 用户id
      * @return 用户信息
      */
-    @Select("select * from t_user where user_id=#{id}")
-    @Results({
-            @Result(column = "user_id", property = "userId"),
-            @Result(column = "username", property = "userName"),
-            @Result(column = "nickname", property = "nickName")
-    })
+//    @Select("select * from t_user where user_id=#{id}")
+//    @Results({
+//            @Result(column = "user_id", property = "userId"),
+//            @Result(column = "username", property = "userName"),
+//            @Result(column = "nickname", property = "nickName")
+//    })
     User queryUserById(int id);
 
     /**
@@ -30,12 +30,12 @@ public interface UserDao {
      * @param userName 用户名
      * @return 用户信息
      */
-    @Select("select * from t_user where username=#{userName}")
-    @Results({
-            @Result(column = "user_id", property = "userId"),
-            @Result(column = "username", property = "userName"),
-            @Result(column = "nickname", property = "nickName")
-    })
+//    @Select("select * from t_user where username=#{userName}")
+//    @Results({
+//            @Result(column = "user_id", property = "userId"),
+//            @Result(column = "username", property = "userName"),
+//            @Result(column = "nickname", property = "nickName")
+//    })
     User queryUserByName(String userName);
 
     @Delete("delete from t_user where user_id=#{id}")

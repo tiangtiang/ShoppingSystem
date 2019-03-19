@@ -24,7 +24,7 @@ public class ExecuteExecptionHandler {
         if(header!=null && header.equals("XMLHttpRequest")){
             return "needLogin";
         }else {
-            return "redirect:html/login.html";
+            return "redirect:/html/login.html";
         }
     }
 
@@ -33,7 +33,8 @@ public class ExecuteExecptionHandler {
      * @return 错误界面地址
      */
     @ExceptionHandler(Exception.class)
-    public String globalException(){
-        return "redirect:/ShoppingSystem/html/500-error.html";
+    public String globalException(Exception ex){
+        System.out.println(ex.getMessage());
+        return "redirect:/html/500-error.html";
     }
 }
