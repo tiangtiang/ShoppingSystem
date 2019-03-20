@@ -5,6 +5,7 @@ import com.tiang.model.Commodity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +40,7 @@ public class CommodityService {
      * @return 添加之后的商品id
      */
     public int addCommodity(Commodity commodity){
+        commodity.setCreateTime(new Date());
         return dao.addCommodity(commodity);
     }
 

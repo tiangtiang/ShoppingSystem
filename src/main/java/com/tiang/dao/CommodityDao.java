@@ -16,7 +16,6 @@ public interface CommodityDao {
      * 查询商品列表，但是不查询内嵌图片
      * @return 商品简要信息
      */
-    @Select("select id, title, price, imgUrl, sellCount from t_commodity")
     List<Commodity> queryCommodityList();
 
     /**
@@ -24,7 +23,6 @@ public interface CommodityDao {
      * @param id 商品id
      * @return 商品信息
      */
-    @Select("select id, title, summary, content, price, imgUrl, sellCount from t_commodity where id=#{id}")
     Commodity queryCommodity(int id);
 
     /**
@@ -32,7 +30,6 @@ public interface CommodityDao {
      * @param id 商品id
      * @return 图片的二进制流
      */
-    @Select("select image from t_commodity where id=#{id}")
     Commodity queryCommodityImage(int id);
 
     /**
@@ -40,8 +37,6 @@ public interface CommodityDao {
      * @param userId 用户id
      * @return 商品列表
      */
-    @Select("SELECT id, title, price, imgUrl, sellCount FROM t_commodity t2 WHERE\n" +
-            "\tt2.id NOT IN ( SELECT t.commodity_id FROM t_bought_list t WHERE t.user_id = 1 )")
     List<Commodity> queryCommodityListNotBuy(int userId);
 
     /**
@@ -49,9 +44,6 @@ public interface CommodityDao {
      * @param commodity 商品信息
      * @return 是否添加成功
      */
-    @Insert("insert into t_commodity (title, summary, content, price, image, owner_id, imgUrl) values(#{title}," +
-            "#{summary}, #{content}, #{price}, #{image}, #{ownerId}, #{imgUrl})")
-    @Options(useGeneratedKeys = true, keyColumn = "id")
     int addCommodity(Commodity commodity);
 
     /**
@@ -59,8 +51,6 @@ public interface CommodityDao {
      * @param commodity 商品信息
      * @return 是否更新成功
      */
-    @Update("update t_commodity set title=#{title}, summary=#{summary}, content=#{content}, price=#{price}," +
-            "image=#{image}, imgUrl=#{imgUrl} where id=#{id}")
     int updateCommodity(Commodity commodity);
 
     /**
@@ -68,8 +58,6 @@ public interface CommodityDao {
      * @param commodity 商品信息
      * @return 是否更新成功
      */
-    @Update("update t_commodity set title=#{title}, summary=#{summary}, content=#{content}, price=#{price}" +
-            " where id=#{id}")
     int updateCommodityWithoutImage(Commodity commodity);
 
     /**
@@ -78,7 +66,6 @@ public interface CommodityDao {
      * @param count 新增销售个数
      * @return 是否更新成功
      */
-    @Update("update t_commodity set sellCount = sellCount+#{count} where id=#{id}")
     int updateSellCount(@Param("id") int id, @Param("count") int count);
 
     /**
@@ -86,6 +73,5 @@ public interface CommodityDao {
      * @param id 商品id
      * @return 是否删除成功
      */
-    @Delete("delete from t_commodity where id=#{id}")
     int deleteCommodity(int id);
 }

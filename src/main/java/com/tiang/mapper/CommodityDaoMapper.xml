@@ -4,4 +4,53 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tiang.dao.CommodityDao">
 
+    <resultMap id="commodityMap" type="com.tiang.model.Commodity">
+        <id property="id" column="id"/>
+        <result property="ownerId" column="owner_id"/>
+        <result property="imgUrl" column="img_url"/>
+        <result property="sellCount" column="sell_count"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="queryCommodityList" resultMap="commodityMap">
+        select id, title, price, img_url, sell_count from t_commodity
+    </select>
+
+    <select id="queryCommodity" resultMap="commodityMap">
+        select id, title, summary, content, price, img_url, sell_count from t_commodity where id=#{id}
+    </select>
+
+    <select id="queryCommodityImage" resultMap="commodityMap">
+        select image from t_commodity where id=#{id}
+    </select>
+
+    <select id="queryCommodityListNotBuy" resultMap="commodityMap">
+        SELECT id, title, price, img_url, sell_count FROM t_commodity t2 WHERE
+            t2.id NOT IN ( SELECT t.commodity_id FROM t_bought_list t WHERE t.user_id = 1 )
+    </select>
+
+    <insert id="addCommodity" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.tiang.model.Commodity">
+        insert into t_commodity (title, summary, content, price, image, owner_id, img_url, create_time)
+            values(#{title}, #{summary}, #{content}, #{price}, #{image}, #{ownerId}, #{imgUrl}, #{createTime})
+    </insert>
+
+    <update id="updateCommodity" parameterType="com.tiang.model.Commodity">
+        update t_commodity set title=#{title}, summary=#{summary}, content=#{content}, price=#{price},
+            image=#{image}, img_url=#{imgUrl} where id=#{id}
+    </update>
+
+    <update id="updateCommodityWithoutImage" parameterType="com.tiang.model.Commodity">
+        update t_commodity set title=#{title}, summary=#{summary}, content=#{content}, price=#{price}
+            where id=#{id}
+    </update>
+
+    <update id="updateSellCount">
+        update t_commodity set sell_count = sell_count + #{count} where id=#{id}
+    </update>
+
+    <delete id="deleteCommodity">
+        delete from t_commodity where id=#{id}
+    </delete>
 </mapper>
