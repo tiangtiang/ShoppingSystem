@@ -88,6 +88,7 @@ public class UserService {
      * @return 是否插入成功
      */
     public boolean addCommodityToCart(Cart cart){
+        cart.setCreateTime(new Date());
         return cartDao.addCommodityToCart(cart)>0;
     }
 
@@ -120,6 +121,7 @@ public class UserService {
             bl.setCount(count.get(i));
             bl.setBuyPrice(price.get(i));
             bl.setBuyTime(new Date());
+            bl.setCreateTime(new Date());
             boughtDao.addBought(bl);
             // 更新商品的销售数量
             commodityDao.updateSellCount(cid.get(i), count.get(i));

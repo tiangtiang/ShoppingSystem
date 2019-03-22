@@ -2,7 +2,7 @@
 
 <@layout>
     <div class="container">
-        <h3>已购列表</h3>
+        <h3 style="margin-top: 2rem">已购列表</h3>
         <table class="table table-striped list" id="data-table">
             <thead>
             <tr>

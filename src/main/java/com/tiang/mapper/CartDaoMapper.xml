@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiang.dao.CartDao">
+    <!--查询商品详细信息-->
+    <resultMap id="cartMap" type="com.tiang.model.Cart" extends="cartMapSimple">
+        <association property="commodity" column="commodity_id"
+                     select="com.tiang.dao.CommodityDao.queryCommodity"/>
+    </resultMap>
+    <!--不查询商品详细信息-->
+    <resultMap id="cartMapSimple" type="com.tiang.model.Cart">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="commodityId" column="commodity_id"/>
+        <result property="count" column="add_count"/>
+        <result property="addTime" column="add_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="queryCartListWithCommodity" resultMap="cartMap">
+        select * from t_cart where user_id = #{userId}
+    </select>
+
+    <select id="queryCart" resultMap="cartMapSimple">
+        select id, user_id, commodity_id, add_count, add_time from t_cart
+            t where t.user_id = #{userId} and t.commodity_id = #{commodityId}
+    </select>
+
+    <insert id="addCommodityToCart" parameterType="com.tiang.model.Cart">
+        insert into t_cart (user_id, commodity_id, add_count, add_time, create_time)
+        values(#{userId}, #{commodityId}, #{count}, #{addTime}, #{createTime})
+    </insert>
+
+    <update id="updateCommodityCount" parameterType="com.tiang.model.Cart">
+        update t_cart set add_count = #{count} where user_id = #{userId} and commodity_id = #{commodityId}
+    </update>
+
+    <delete id="deleteCart">
+        delete from t_cart where user_id=#{uid} and commodity_id=#{cid}
+    </delete>
+</mapper>

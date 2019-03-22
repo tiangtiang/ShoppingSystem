@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tiang.dao.BoughtDao">
+
+    <resultMap id="boughtMapSimple" type="com.tiang.model.BoughtList">
+        <id property="id" column="id"/>
+        <result property="commodityId" column="commodity_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="buyPrice" column="buy_price"/>
+        <result property="buyTime" column="buy_time"/>
+        <result property="count" column="buy_count"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <resultMap id="boughtMapComplete" type="com.tiang.model.BoughtList" extends="boughtMapSimple">
+        <association property="commodity" column="commodity_id"
+                     select="com.tiang.dao.CommodityDao.queryCommodity"/>
+    </resultMap>
+
+    <select id="queryBoughtList" resultMap="boughtMapSimple">
+        select * from t_bought_list t where t.user_id = #{userId}
+    </select>
+
+    <insert id="addBought" parameterType="com.tiang.model.BoughtList">
+        insert into t_bought_list (user_id, commodity_id, buy_price, buy_count, buy_time, create_time)
+            values(#{userId}, #{commodityId}, #{buyPrice}, #{count}, #{buyTime}, #{createTime})
+    </insert>
+
+    <select id="queryBoughtListWithCommodity" resultMap="boughtMapComplete">
+        select * from t_bought_list t where t.user_id = #{userId}
+    </select>
+</mapper>

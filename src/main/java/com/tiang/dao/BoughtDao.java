@@ -19,15 +19,6 @@ public interface BoughtDao {
      * @param userId 用户id
      * @return 已购列表
      */
-    @Select("select * from t_bought_list t where t.user_id = #{userId}")
-    @Results(
-            {
-                    @Result(property = "userId", column = "user_id"),
-                    @Result(property = "commodityId", column = "commodity_id"),
-                    @Result(property = "buyTime", column = "buy_time"),
-                    @Result(property = "buyPrice", column = "buy_price")
-            }
-    )
     List<BoughtList> queryBoughtList(int userId);
 
     /**
@@ -35,8 +26,6 @@ public interface BoughtDao {
      * @param bought 记录
      * @return 是否添加成功
      */
-    @Insert("insert into t_bought_list (user_id, commodity_id, buy_price, count, buy_time) " +
-            "values(#{userId}, #{commodityId}, #{buyPrice}, #{count}, #{buyTime})")
     int addBought(BoughtList bought);
 
     /**
@@ -44,16 +33,5 @@ public interface BoughtDao {
      * @param userId 用户id
      * @return 购买列表
      */
-    @Select("select * from t_bought_list t where t.user_id = #{userId}")
-    @Results(
-            {
-                    @Result(property = "userId", column = "user_id"),
-                    @Result(property = "commodityId", column = "commodity_id"),
-                    @Result(property = "buyTime", column = "buy_time"),
-                    @Result(property = "buyPrice", column = "buy_price"),
-                    @Result(property = "commodity", column = "commodity_id",
-                            one = @One(select = "com.tiang.dao.CommodityDao.queryCommodity"))
-            }
-    )
     List<BoughtList> queryBoughtListWithCommodity(int userId);
 }
